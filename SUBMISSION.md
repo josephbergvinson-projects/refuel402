@@ -34,13 +34,14 @@ The public `/.well-known/x402` manifest describes the manual HTTP resource and r
 
 ## Mainnet proof
 
-Acceptance level: **`live_proof` for the deployed mainnet generation**. Three stock-MetaMask journeys completed with exact HBAR delivery and terminal reconciliation.
+Acceptance level: **`live_proof` for the deployed mainnet generation**. Four stock-MetaMask journeys completed with exact HBAR delivery and terminal reconciliation.
 
 The showcase run is **Ethereum WBTC → Hedera WBTC → 25 HBAR** over LayerZero and a two-hop SaucerSwap V2 route:
 
 | | Ethereum origin | Hedera arrival | Hedera conversion |
 |---|---|---|---|
 | **WBTC → 25 HBAR** | [`0xe0a5707d…182d6b`](https://etherscan.io/tx/0xe0a5707d550149c6275d3319a0ccc5c796ade5e5a483779f26b0da08bd182d6b) | [`0xaa81e12a…0ae996`](https://hashscan.io/mainnet/transaction/0xaa81e12aeb13523104c1d9c4f3228fd503b68fb74a4eab4909620c10b20ae996) | [`0xeb37c19d…2f4a59`](https://hashscan.io/mainnet/transaction/0xeb37c19d8a403bc9e9b70d006fba272f1c8be6a2d12810068c012220d62f4a59) |
+| **USDC.axl → 25 HBAR** (Axelar/Squid, HTS-native) | [`0xa4221220…d2c65`](https://etherscan.io/tx/0xa42212208f776d882d95ac3fd96688a0d0e29c839abd293acbeaa687e5dd2c65) | [`0.0.6319439-…530857`](https://hashscan.io/mainnet/transaction/0.0.6319439-1785596596-362530857) | [`0x88564c2b…b3abc3`](https://hashscan.io/mainnet/transaction/0x88564c2b00d49095a480df91d10259028d009a8d849bc2ddb5bbcca3eeb3abc3) |
 | ETH → WETH → 10 HBAR | [`0x49d9b250…1bbee4`](https://etherscan.io/tx/0x49d9b2509c05e49ca720f463e89de6a776089e71bd1542fc4e0541e0e81bbee4) | [`0x7f4208d5…bb5ede`](https://hashscan.io/mainnet/transaction/0x7f4208d5c5072a78acff387cad9be51245409d64a8f81749e4aa3ca77ebb5ede) | [`0xe14f5c3c…0a2654`](https://hashscan.io/mainnet/transaction/0xe14f5c3cfa98dde940806dfdc705e3fc0b3471444e392150e3c05b65cb0a2654) |
 | ETH → WETH → 10 HBAR | [`0x7af13c82…caf58a`](https://etherscan.io/tx/0x7af13c82fa23a3b8c38065f11137f734b804791c6a1780e48bd45f7462caf58a) | [`0x57c034b1…a2f30`](https://hashscan.io/mainnet/transaction/0x57c034b1d5e03c04bbf3e71f790671a018e689518686816d734a0c984b7a2f30) | [`0x2b04b7b7…38a40b`](https://hashscan.io/mainnet/transaction/0x2b04b7b79f286e46de31fb4997ab8d565fbfad1cd3c2cce48497bd8c7638a40b) |
 

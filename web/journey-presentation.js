@@ -443,6 +443,7 @@ export function originHashState(value) {
  */
 export function journeySurface({
   journeyId = null,
+  journey = null,
   recovery = null,
   recoveryProvisional = false,
   quoteConsentGate = null,
@@ -450,6 +451,12 @@ export function journeySurface({
   arrivalConfirmed = false,
 } = {}) {
   if (!journeyId) return "timeline";
+  // A settled refuel ends the journey, and the record says so whether or not the
+  // client has finished re-reading the decision. Without this, a completed
+  // pre-authorized transfer could still be shown the manual "Approve conversion"
+  // card — offering to buy HBAR the owner had already received, off the back of
+  // a recovery snapshot taken seconds earlier.
+  if (journey?.state === "completed" || journey?.refuelAuthorization?.state === "completed") return "timeline";
   if (quoteConsentGate) return "terms_changed";
   if (recoveryProvisional) return "rechecking";
   if (!recovery) return "timeline";

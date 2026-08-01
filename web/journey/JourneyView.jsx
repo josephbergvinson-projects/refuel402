@@ -47,6 +47,7 @@ function RecheckingCard() {
 export function JourneyView() {
   const surface = journeySurface({
     journeyId: state.journeyId.value,
+    journey: state.journey.value,
     recovery: state.recovery.value,
     recoveryProvisional: state.recoveryProvisional.value,
     quoteConsentGate: state.quoteConsentGate.value,

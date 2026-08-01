@@ -25,6 +25,22 @@ Refuel402 keeps two related payment paths explicit:
 
 Both paths bind payer, token, amount, recipient, chain, nonce, deadline, spender, and quote context. The pre-authorized witness additionally binds the exact route hash, maximum input, exact HBAR output, and fixed service fee. If those terms cannot be satisfied, execution reverts atomically.
 
+### The fee, on a real journey
+
+The USDC.axl run below is the worked example. Its on-chain `RefuelExecuted` event:
+
+```
+spent               2,300,380 USDC.axl   (2.30038)
+  x402 service fee    546,504 USDC.axl   (0.546504)
+  swap input        1,753,876 USDC.axl
+refunded              319,007 USDC.axl
+hbarDelivered   2,500,000,000 tinybar    (exactly 25 HBAR)
+```
+
+The fee is denominated by the x402 quote, priced in the asset that just arrived — the only asset the owner holds — and paid to the x402 recipient by `Refuel402ExactPermit2Proxy` against the Permit2 witness signed before bridging. `spent + refunded` equals the signed cap exactly.
+
+So the completed mainnet journeys prove the x402 **scheme, witness, payment proxy and fee settlement**. They do not exercise the HTTP transport, because the pre-authorized path deliberately does not use it: an owner waiting 20 minutes on a bridge, holding no gas on the destination chain, cannot be asked to come back and answer a `402`. The manual path still settles that way, and `POST /v1/product/journeys/:id/payment` returns a live `@x402/core`-encoded `PAYMENT-REQUIRED` challenge today — but no mainnet journey has yet completed through it, so it is proven at integration-harness level and stated as such.
+
 ## Why the complete proof is on mainnet
 
 The full provider→asset→SaucerSwap intersection does not currently exist on Hedera testnet. Axelar ITS reaches Hedera testnet and AXE exists, but AXE has no qualifying Saucer route. LayerZero has a Hedera testnet messaging endpoint but publishes no official Hedera testnet asset. The UI reports those blockers instead of pretending the journey is executable.
@@ -42,13 +58,14 @@ This is a formal judging risk: the complete end-to-end evidence is on mainnet. T
 
 ## Current acceptance
 
-Acceptance level: **`live_proof` for the deployed mainnet generation**. Three stock-MetaMask journeys completed with the exact requested HBAR and terminal reconciliation.
+Acceptance level: **`live_proof` for the deployed mainnet generation**. Four stock-MetaMask journeys completed with the exact requested HBAR and terminal reconciliation, across both bridge providers and both destination token standards.
 
 The showcase run is **Ethereum WBTC → Hedera WBTC → 25 HBAR** over LayerZero and a two-hop SaucerSwap V2 route:
 
 | | Ethereum origin | Hedera arrival | Hedera conversion |
 |---|---|---|---|
 | **WBTC → 25 HBAR** | [`0xe0a5707d…182d6b`](https://etherscan.io/tx/0xe0a5707d550149c6275d3319a0ccc5c796ade5e5a483779f26b0da08bd182d6b) | [`0xaa81e12a…0ae996`](https://hashscan.io/mainnet/transaction/0xaa81e12aeb13523104c1d9c4f3228fd503b68fb74a4eab4909620c10b20ae996) | [`0xeb37c19d…2f4a59`](https://hashscan.io/mainnet/transaction/0xeb37c19d8a403bc9e9b70d006fba272f1c8be6a2d12810068c012220d62f4a59) |
+| **USDC.axl → 25 HBAR** (Axelar/Squid, HTS-native) | [`0xa4221220…d2c65`](https://etherscan.io/tx/0xa42212208f776d882d95ac3fd96688a0d0e29c839abd293acbeaa687e5dd2c65) | [`0.0.6319439-…530857`](https://hashscan.io/mainnet/transaction/0.0.6319439-1785596596-362530857) | [`0x88564c2b…b3abc3`](https://hashscan.io/mainnet/transaction/0x88564c2b00d49095a480df91d10259028d009a8d849bc2ddb5bbcca3eeb3abc3) |
 | ETH → WETH → 10 HBAR | [`0x49d9b250…1bbee4`](https://etherscan.io/tx/0x49d9b2509c05e49ca720f463e89de6a776089e71bd1542fc4e0541e0e81bbee4) | [`0x7f4208d5…bb5ede`](https://hashscan.io/mainnet/transaction/0x7f4208d5c5072a78acff387cad9be51245409d64a8f81749e4aa3ca77ebb5ede) | [`0xe14f5c3c…0a2654`](https://hashscan.io/mainnet/transaction/0xe14f5c3cfa98dde940806dfdc705e3fc0b3471444e392150e3c05b65cb0a2654) |
 | ETH → WETH → 10 HBAR | [`0x7af13c82…caf58a`](https://etherscan.io/tx/0x7af13c82fa23a3b8c38065f11137f734b804791c6a1780e48bd45f7462caf58a) | [`0x57c034b1…a2f30`](https://hashscan.io/mainnet/transaction/0x57c034b1d5e03c04bbf3e71f790671a018e689518686816d734a0c984b7a2f30) | [`0x2b04b7b7…38a40b`](https://hashscan.io/mainnet/transaction/0x2b04b7b79f286e46de31fb4997ab8d565fbfad1cd3c2cce48497bd8c7638a40b) |
 

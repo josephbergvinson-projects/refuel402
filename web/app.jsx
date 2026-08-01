@@ -147,6 +147,7 @@ function App() {
     journeySurface: state.surface.value === "journey"
       ? journeySurface({
           journeyId: state.journeyId.value,
+          journey: state.journey.value,
           recovery: state.recovery.value,
           recoveryProvisional: state.recoveryProvisional.value,
           quoteConsentGate: state.quoteConsentGate.value,

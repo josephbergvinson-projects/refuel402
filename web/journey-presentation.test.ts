@@ -749,3 +749,29 @@ describe("evidence never renders a placeholder as a fact", () => {
     expect(rows.some((row: any) => row.title === `0x${"ab".repeat(32)}`)).toBe(true);
   });
 });
+
+describe("a settled refuel ends the journey", () => {
+  // The owner had already received 25 HBAR and was still shown "Approve
+  // conversion -> 25 HBAR", because the surface was chosen from a recovery
+  // snapshot the client had not yet refreshed.
+  it("never offers manual conversion once the refuel has completed", () => {
+    const stale = { nextAtomicStep: "destination_wallet_consent", disposition: "action_required" };
+    expect(journeySurface({
+      journeyId: "j", recovery: stale, arrivalConfirmed: true,
+      journey: { state: "completed", refuelAuthorization: { state: "completed" } },
+    })).toBe("timeline");
+    expect(journeySurface({
+      journeyId: "j", recovery: stale, arrivalConfirmed: true,
+      journey: { state: "arrival_confirmed", refuelAuthorization: { state: "completed" } },
+    })).toBe("timeline");
+  });
+
+  it("still offers it when the refuel genuinely fell back to manual", () => {
+    expect(journeySurface({
+      journeyId: "j",
+      recovery: { nextAtomicStep: "destination_wallet_consent", disposition: "action_required" },
+      arrivalConfirmed: true,
+      journey: { state: "arrival_confirmed", refuelAuthorization: { state: "fallback" } },
+    })).toBe("arrival_consent");
+  });
+});
