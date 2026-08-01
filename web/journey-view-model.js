@@ -115,7 +115,12 @@ export function deriveJourneyProgress({ journey, recovery, quote = null, quoteLi
     current = authorizationStep(latestAuthorization(journey)?.intentKind) ??
       (done.has("arrival") ? "permit2" : done.has("bridge_submit") ? "arrival" : "bridge_submit");
   }
-  if (!current && !quoteRefreshRequired && recovery?.disposition !== "terminal") {
+  // Only ever guess once the server has actually answered. Without a recovery
+  // decision this fell back to "first step not yet done", which on a journey
+  // whose local copy lagged the server announced SIGN — "Prepare your Hedera
+  // address" — while the bridge was already submitted and in flight. Reading is
+  // not knowing, and this surface says so everywhere else.
+  if (!current && recovery && !quoteRefreshRequired && recovery.disposition !== "terminal") {
     current = stepRows.find(([id]) => !done.has(id))?.[0] ?? null;
   }
 

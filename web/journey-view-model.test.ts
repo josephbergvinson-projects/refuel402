@@ -140,6 +140,28 @@ describe("authoritative journey view model", () => {
   });
 });
 
+describe("no server decision, no claim", () => {
+  // The bridge was submitted and in flight, the local journey copy lagged, and
+  // with no recovery yet the rail guessed "first step not done" and announced
+  // SIGN / "Prepare your Hedera address". Reading is not knowing.
+  it("marks nothing current while the server decision is still being read", () => {
+    const rows = deriveJourneyProgress({
+      journey: { events: [{ type: "destination_activation_funded" }] },
+      recovery: null,
+    });
+    expect(rows.some((row) => row.status === "current")).toBe(false);
+    expect(rows.find((row) => row.id === "destination")?.status).toBe("done");
+  });
+
+  it("resumes naming a current step as soon as the server answers", () => {
+    const rows = deriveJourneyProgress({
+      journey: { events: [{ type: "destination_activation_funded" }, { type: "bridge_submitted" }] },
+      recovery: { nextAtomicStep: "poll_bridge" },
+    });
+    expect(rows.find((row) => row.id === "arrival")?.status).toBe("current");
+  });
+});
+
 describe("pre-authorized journey rail", () => {
   const preauthorized = {
     refuelAuthorization: { state: "recorded" },
