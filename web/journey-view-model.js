@@ -298,18 +298,27 @@ const JOURNEY_PHASES = [
   { id: "receive", label: "Receive", members: ["payment", "execution", "reconcile"] },
 ];
 
-export function deriveJourneyPhases(progress = []) {
-  const byId = new Map(progress.map((step) => [step.id, step]));
-  return JOURNEY_PHASES.map((phase) => {
-    const present = phase.members.map((id) => byId.get(id)).filter(Boolean);
-    if (!present.length) return { id: phase.id, label: phase.label, status: "pending" };
-    const status = present.some((step) => step.status === "action_required")
-      ? "action_required"
-      : present.some((step) => step.status === "current")
-        ? "current"
-        : present.every((step) => step.status === "done")
-          ? "done"
-          : "pending";
-    return { id: phase.id, label: phase.label, status };
+export function deriveJourneyPhases(progress = [], journey = null) {
+  const types = eventTypes(journey);
+  const submitted = types.has("bridge_submitted") || types.has("bridge_submission_adopted");
+  const arrived = types.has("bridge_arrived");
+  const complete = journey?.state === "completed";
+  const needsOwner = progress.some((step) => step.status === "action_required");
+
+  // Derived from what the chain recorded, not from the step model and not from a
+  // recovery decision that may still be loading. If a bridge transaction was
+  // broadcast and has not landed, the transfer IS bridging — AxelarScan will say
+  // so, and this must not still be claiming SIGN.
+  const phase = (id, label, done, current) => ({
+    id,
+    label,
+    status: done ? "done" : current ? (needsOwner ? "action_required" : "current") : "pending",
   });
+
+  return [
+    phase("sign", "Sign", submitted, !submitted),
+    phase("bridge", "Bridge", arrived, submitted && !arrived),
+    phase("receive", "Receive", complete, arrived && !complete),
+  ];
 }
+

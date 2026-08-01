@@ -687,7 +687,7 @@ describe("journey surfaces read as one calm grammar", () => {
   it("orients the journey with three phases, one status line, and real transaction links", () => {
     expect(journeyTimeline).toContain("Safe to close this tab.");
     expect(journeyTimeline).toContain("bridgeEta({ journey, quote: state.quote.value })");
-    expect(journeyChrome).toContain("deriveJourneyPhases(state.journeyPresentation.value.progress)");
+    expect(journeyChrome).toContain("deriveJourneyPhases(state.journeyPresentation.value.progress, state.journey.value)");
     expect(journeyChrome).toContain('class="journey-phases__track"');
     expect(journeyChrome).toContain("journey-receipt");
     // No step is ever linked without a reference the server actually recorded.

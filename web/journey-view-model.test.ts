@@ -3,6 +3,7 @@ import {
   activityActionLabel,
   deriveJourneyPresentation,
   deriveJourneyProgress,
+  deriveJourneyPhases,
 } from "./journey-view-model.js";
 
 const event = (type: string) => ({ type });
@@ -220,5 +221,38 @@ describe("pre-authorized journey rail", () => {
     expect(rows.map((row) => row.id)).toEqual([
       "destination", "bridge_submit", "arrival", "permit2", "payment", "execution", "reconcile",
     ]);
+  });
+});
+
+describe("phases follow the chain, not the step model", () => {
+  const phases = (journey: unknown) =>
+    Object.fromEntries(deriveJourneyPhases([], journey).map((p: any) => [p.id, p.status]));
+
+  // The complaint, exactly: AxelarScan shows the bridge in flight and the app
+  // still said SIGN.
+  it("says BRIDGE the moment a bridge transaction is broadcast", () => {
+    expect(phases({ events: [{ type: "destination_activation_funded" }, { type: "bridge_submitted" }] }))
+      .toEqual({ sign: "done", bridge: "current", receive: "pending" });
+  });
+
+  it("says SIGN only while nothing has been broadcast", () => {
+    expect(phases({ events: [{ type: "destination_activation_funded" }] }))
+      .toEqual({ sign: "current", bridge: "pending", receive: "pending" });
+  });
+
+  it("moves to RECEIVE on arrival and completes with the journey", () => {
+    expect(phases({ events: [{ type: "bridge_submitted" }, { type: "bridge_arrived" }] }))
+      .toEqual({ sign: "done", bridge: "done", receive: "current" });
+    expect(phases({ state: "completed", events: [{ type: "bridge_submitted" }, { type: "bridge_arrived" }] }))
+      .toEqual({ sign: "done", bridge: "done", receive: "done" });
+  });
+
+  // An adopted hash is a broadcast the owner proved after the fact.
+  it("counts an adopted origin transaction as broadcast", () => {
+    expect(phases({ events: [{ type: "bridge_submission_adopted" }] }).bridge).toBe("current");
+  });
+
+  it("does not need a recovery decision to be right", () => {
+    expect(phases({ events: [{ type: "bridge_submitted" }] }).bridge).toBe("current");
   });
 });

@@ -80,7 +80,7 @@ export function JourneyProgress({ activeNote = null }) {
     mode: state.mode.value,
     networks: state.options.value?.networks ?? [],
   });
-  const phases = deriveJourneyPhases(state.journeyPresentation.value.progress);
+  const phases = deriveJourneyPhases(state.journeyPresentation.value.progress, state.journey.value);
   const active = steps.find((step) => step.status === "current" || step.status === "action_required");
   // Only transactions that actually exist, in the order they happened.
   const receipts = steps.filter((step) => step.link && step.reference);
