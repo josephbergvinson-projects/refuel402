@@ -1,6 +1,7 @@
 import { actions, state } from "../store.js";
-import { Button, Disclosure, StatePill, Timeline, TimelineStep } from "../ui/index.js";
+import { Button, Disclosure, StatePill } from "../ui/index.js";
 import { evidenceRows, journeySteps, primaryActionCopy } from "../journey-presentation.js";
+import { deriveJourneyPhases } from "../journey-view-model.js";
 
 /**
  * Grammar shared by every post-start surface: one header, one Details
@@ -63,9 +64,14 @@ export function Evidence({ rows, label = "Details", note }) {
 }
 
 /**
- * The vertical rail, shared by the timeline surface and every recovery surface
- * so orientation never disappears when something goes wrong. `activeNote` is
- * rendered inside the current step only.
+ * The journey surface: three phases, one status line, and the transactions.
+ *
+ * This replaced a seven-row checklist with a paragraph under each row. That
+ * shape promised to walk the owner through seven interactions; in truth every
+ * signature happens up front in MetaMask and the rest is the chain working. The
+ * seven-step model is unchanged and still feeds Details — it is the display that
+ * folds to origin → transit → destination, the shape every bridge UI already
+ * uses. `activeNote` rides under the status line.
  */
 export function JourneyProgress({ activeNote = null }) {
   const steps = journeySteps({
@@ -74,30 +80,50 @@ export function JourneyProgress({ activeNote = null }) {
     mode: state.mode.value,
     networks: state.options.value?.networks ?? [],
   });
+  const phases = deriveJourneyPhases(state.journeyPresentation.value.progress);
   const active = steps.find((step) => step.status === "current" || step.status === "action_required");
+  // Only transactions that actually exist, in the order they happened.
+  const receipts = steps.filter((step) => step.link && step.reference);
+
   return (
-    <Timeline label="Journey progress" class="journey-timeline">
-      {steps.map((step, index) => (
-        <TimelineStep
-          key={step.id}
-          status={step.status}
-          statusLabel={step.statusLabel}
-          title={step.title}
-          index={index + 1}
-          detail={
-            <>
-              {step.detail}
-              {step.referenceShort
-                ? <span class="journey-step__ref tabular no-clip" title={step.reference}>{step.referenceShort}</span>
-                : null}
-            </>
-          }
-          link={step.link}
-        >
-          {activeNote && step.id === active?.id ? activeNote : null}
-        </TimelineStep>
-      ))}
-    </Timeline>
+    <section class="journey-phases" aria-label="Journey progress">
+      <ol class="journey-phases__track">
+        {phases.map((phase) => (
+          <li key={phase.id} class={`journey-phase is-${phase.status}`}>
+            <span class="journey-phase__dot" aria-hidden="true" />
+            <span class="journey-phase__label">{phase.label}</span>
+            <span class="sr-only">{` — ${phase.status === "done" ? "done" : phase.status === "current" ? "in progress" : phase.status === "action_required" ? "action needed" : "pending"}`}</span>
+          </li>
+        ))}
+      </ol>
+
+      {active
+        ? (
+          <p class={`journey-phases__status is-${active.status}`}>
+            <span class="journey-phases__status-title">{active.title}</span>
+            {active.detail ? <span class="journey-phases__status-detail">{active.detail}</span> : null}
+          </p>
+        )
+        : null}
+
+      {activeNote}
+
+      {receipts.length
+        ? (
+          <ul class="journey-receipts" aria-label="Transactions">
+            {receipts.map((step) => (
+              <li key={step.id}>
+                <a class="journey-receipt" href={step.link.href} target="_blank" rel="noreferrer" title={step.reference}>
+                  <span class="journey-receipt__what">{step.title}</span>
+                  <span class="journey-receipt__ref tabular">{step.referenceShort}</span>
+                  <span class="journey-receipt__go" aria-hidden="true">↗</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        )
+        : null}
+    </section>
   );
 }
 

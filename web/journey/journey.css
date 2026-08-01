@@ -227,3 +227,69 @@
   .journey-evidence__row { flex-direction: column; gap: var(--space-1); }
   .journey-evidence__row dd { text-align: left; }
 }
+
+/* ---------- journey phases ----------
+   Three phases, one status line, and the transactions. Replaced a seven-row
+   checklist whose shape promised to walk the owner through seven interactions
+   when every signature happens up front in MetaMask. */
+.journey-phases { display: grid; gap: var(--space-5); }
+
+.journey-phases__track {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.journey-phase { display: grid; gap: var(--space-2); justify-items: start; min-width: 0; }
+.journey-phase__dot {
+  width: 100%;
+  height: 3px;
+  border-radius: 999px;
+  background: var(--line-strong);
+}
+.journey-phase__label {
+  color: var(--text-3);
+  font-size: var(--text-2xs);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.journey-phase.is-done .journey-phase__dot { background: var(--mint); }
+.journey-phase.is-done .journey-phase__label { color: var(--text-2); }
+.journey-phase.is-current .journey-phase__dot {
+  background: linear-gradient(90deg, var(--mint), var(--line-strong));
+  animation: journey-phase-pulse 1.8s ease-in-out infinite;
+}
+.journey-phase.is-current .journey-phase__label { color: var(--mint); }
+.journey-phase.is-action_required .journey-phase__dot { background: var(--amber); }
+.journey-phase.is-action_required .journey-phase__label { color: var(--amber); }
+@keyframes journey-phase-pulse { 50% { opacity: 0.55; } }
+@media (prefers-reduced-motion: reduce) {
+  .journey-phase.is-current .journey-phase__dot { animation: none; }
+}
+
+.journey-phases__status { display: grid; gap: 2px; margin: 0; }
+.journey-phases__status-title { color: var(--text-1); font-size: var(--text-md); font-weight: 750; }
+.journey-phases__status-detail { color: var(--text-3); font-size: var(--text-xs); }
+.journey-phases__status.is-action_required .journey-phases__status-title { color: var(--amber); }
+
+.journey-receipts { display: grid; gap: var(--space-2); margin: 0; padding: 0; list-style: none; }
+.journey-receipt {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-inner);
+  background: var(--field);
+  color: var(--text-2);
+  font-size: var(--text-xs);
+  text-decoration: none;
+}
+.journey-receipt:hover { border-color: var(--mint-line); color: var(--text-1); }
+.journey-receipt__what { flex: 1; min-width: 0; }
+.journey-receipt__ref { color: var(--text-3); }
+.journey-receipt__go { color: var(--text-3); }

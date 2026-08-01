@@ -9,6 +9,7 @@ import {
   derivePrimaryAction,
   derivePriceProtection,
   deriveQuoteBlockers,
+  deriveOriginGasCheck,
   deriveQuoteFreshness,
   deriveReceiveRows,
   deriveRouteSummary,
@@ -73,6 +74,13 @@ export function ComposeCard() {
   const route = deriveRouteSummary(quote);
   const priceProtection = derivePriceProtection(quote);
   const blockers = deriveQuoteBlockers(quote);
+  // A warning, never a gate: the fee ceiling a wallet picks is its own choice,
+  // so a conservative estimate must not block a transfer that would go through.
+  const originGas = deriveOriginGasCheck({
+    quote,
+    nativeBalance: state.nativeBalance.value,
+    nativeSymbol: state.network.value?.nativeSymbol ?? "ETH",
+  });
   const freshness = quote
     ? deriveQuoteFreshness({
         secondsRemaining,
@@ -219,6 +227,10 @@ export function ComposeCard() {
                   <FeasibilityMeter feasibility={feasibility} />
                 </>
               )
+              : null}
+
+            {originGas
+              ? <p class="compose-gas-warning" role="status" title={originGas.title}>{originGas.text}</p>
               : null}
 
             <RouteStrip route={route} blockers={blockers} open={routeOpen} onToggle={setRouteOpen} />

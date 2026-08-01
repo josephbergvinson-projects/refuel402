@@ -119,6 +119,7 @@ export class BridgeAdapterError extends Error {
       | "PROVIDER_NETWORK_UNCONFIGURED"
       | "PROVIDER_UNSUPPORTED_TOKEN_NETWORK"
       | "PROVIDER_ROUTE_UNAVAILABLE"
+      | "PROVIDER_TEMPORARILY_PAUSED"
       | "PROVIDER_RESPONSE_INVALID"
       | "PROVIDER_REQUEST_FAILED"
       | "STALE_QUOTE",
@@ -389,11 +390,22 @@ export async function quoteSquid(request: BridgeQuoteRequest): Promise<BridgeQuo
     throw new BridgeAdapterError("PROVIDER_REQUEST_FAILED", "Axelar/Squid quote request failed");
   }
   if (!response.ok) {
-    throw new BridgeAdapterError(
-      response.status === 400 || response.status === 404
+    // 403 after a VALID integrator id is Squid pausing swaps service-wide, not a
+    // route or credential problem: an invalid id answers 401 before this point,
+    // and the pause reproduces on every route and on both API hosts. Reported as
+    // a generic request failure it looked like our outage, so the owner had
+    // nothing to act on — when the useful thing to say is "this provider is
+    // paused, the other one is not".
+    const code = response.status === 403
+      ? "PROVIDER_TEMPORARILY_PAUSED"
+      : response.status === 400 || response.status === 404
         ? "PROVIDER_ROUTE_UNAVAILABLE"
-        : "PROVIDER_REQUEST_FAILED",
-      `Axelar/Squid quote unavailable (${response.status})`,
+        : "PROVIDER_REQUEST_FAILED";
+    throw new BridgeAdapterError(
+      code,
+      code === "PROVIDER_TEMPORARILY_PAUSED"
+        ? "Axelar/Squid has paused swaps. Nothing was sent or spent — try LayerZero, or this provider again later."
+        : `Axelar/Squid quote unavailable (${response.status})`,
     );
   }
   const body = await boundedJson(response);

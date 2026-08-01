@@ -30,11 +30,21 @@ const PREAUTHORIZED_STEPS = [
 ];
 
 /**
- * Durable evidence that this journey took the one-signature path: the witness is
- * recorded before the bridge, and the record survives for the whole journey.
+ * Whether this journey is on the one-signature path.
+ *
+ * The witness is durable proof, but it is only recorded PART WAY THROUGH — after
+ * activation and the allowance, still before the bridge. Deciding the rail from
+ * the witness alone meant that at step one, when the owner is reading the list to
+ * learn what is coming, they were shown the manual order: allowance and fee
+ * placed after "Cross to Hedera", exactly the post-arrival flow this path exists
+ * to remove. The quote's own terms say so from the very first render, so they
+ * decide it, and the recorded witness keeps the rail correct afterwards even if
+ * the quote is no longer in hand.
  */
-export function refuelPreauthorized(journey) {
-  return Boolean(journey?.refuelAuthorization) || eventTypes(journey).has("refuel_authorization_recorded");
+export function refuelPreauthorized(journey, quote = null) {
+  return quote?.refuelAuthorization?.enabled === true
+    || Boolean(journey?.refuelAuthorization)
+    || eventTypes(journey).has("refuel_authorization_recorded");
 }
 
 function eventTypes(journey) {
@@ -67,11 +77,11 @@ function authorizationStep(kind) {
   return null;
 }
 
-export function deriveJourneyProgress({ journey, recovery, quoteLive = false, routeMode = "bridge_plus_refuel" } = {}) {
+export function deriveJourneyProgress({ journey, recovery, quote = null, quoteLive = false, routeMode = "bridge_plus_refuel" } = {}) {
   const types = eventTypes(journey);
   const stepRows = routeMode === "bridge_only"
     ? STEPS.slice(0, 3)
-    : refuelPreauthorized(journey) ? PREAUTHORIZED_STEPS : STEPS;
+    : refuelPreauthorized(journey, quote) ? PREAUTHORIZED_STEPS : STEPS;
   const done = new Set();
   if (types.has("destination_activation_funded")) done.add("destination");
   if (types.has("bridge_submitted")) done.add("bridge_submit");
@@ -124,9 +134,9 @@ export function deriveJourneyProgress({ journey, recovery, quoteLive = false, ro
   });
 }
 
-export function deriveJourneyPresentation({ journey, recovery, quoteLive = false, routeMode = "bridge_plus_refuel" } = {}) {
+export function deriveJourneyPresentation({ journey, recovery, quote = null, quoteLive = false, routeMode = "bridge_plus_refuel" } = {}) {
   const base = {
-    progress: deriveJourneyProgress({ journey, recovery, quoteLive, routeMode }),
+    progress: deriveJourneyProgress({ journey, recovery, quote, quoteLive, routeMode }),
     // The server's raw lifecycle state used to be the page heading, so a journey
     // read before its decision landed announced itself as "authorizing" or
     // "execution pending". Every branch below that knows something real supplies
@@ -262,3 +272,39 @@ export function activityActionLabel(action) {
 // shortJourneyReference lived here: it truncated a journey uuid for display. No
 // surface should render one at all, so the helper is gone rather than left
 // exported for a future surface to pick up.
+
+/**
+ * Three phases, not seven steps.
+ *
+ * The seven-step rail is still the authoritative model and still feeds Details,
+ * but as a *surface* it was wrong: a stacked checklist with a paragraph under
+ * every row reads as a wizard promising to walk you through seven interactions,
+ * when the truth is that all the signing happens up front in MetaMask and the
+ * rest is the chain doing its thing. Every bridge UI a web3 user has already
+ * used collapses this to origin → transit → destination, and so does this.
+ *
+ * A phase is done when all of its steps are; current when any of them is; and
+ * the phase list is derived from whichever rail is in force, so the
+ * one-signature and manual paths both fold into the same three.
+ */
+const JOURNEY_PHASES = [
+  { id: "sign", label: "Sign", members: ["destination", "permit2", "authorize_refuel", "bridge_submit"] },
+  { id: "bridge", label: "Bridge", members: ["arrival"] },
+  { id: "receive", label: "Receive", members: ["payment", "execution", "reconcile"] },
+];
+
+export function deriveJourneyPhases(progress = []) {
+  const byId = new Map(progress.map((step) => [step.id, step]));
+  return JOURNEY_PHASES.map((phase) => {
+    const present = phase.members.map((id) => byId.get(id)).filter(Boolean);
+    if (!present.length) return { id: phase.id, label: phase.label, status: "pending" };
+    const status = present.some((step) => step.status === "action_required")
+      ? "action_required"
+      : present.some((step) => step.status === "current")
+        ? "current"
+        : present.every((step) => step.status === "done")
+          ? "done"
+          : "pending";
+    return { id: phase.id, label: phase.label, status };
+  });
+}

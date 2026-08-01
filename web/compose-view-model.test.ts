@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   amountText,
+  deriveOriginGasCheck,
   constraintText,
   derivePickerGroups,
   derivePresets,
@@ -410,8 +411,10 @@ describe("derivePriceProtection", () => {
     expect(protection).toMatchObject({
       preset: "flexible",
       bufferBps: 1880,
-      today: { usd: "$2.00" },
-      cap: { usd: "$2.35" },
+      // The fiat already rides inside `amount`; a separate `usd` here printed it
+      // twice ("1.256762 USDC.axl · $1.26 · $1.26").
+      today: { usd: null },
+      cap: { usd: null },
       warning: null,
     });
     expect(protection.explanation).toContain("anything unused stays in your wallet");
@@ -468,7 +471,10 @@ describe("deriveRouteSummary", () => {
 
   it("carries the sponsored-gas line, max slippage and the fair-value verdict", () => {
     const route = deriveRouteSummary(refuelQuote);
-    expect(route.sponsoredGas?.value).toBe("Sponsored · $0");
+    // Sponsored gas is not money the owner spends, is not deducted from the
+    // bridged amount, and is not a number they can act on. It has no row.
+    expect(route.sponsoredGas).toBeNull();
+    expect(route.rows.some((row: { id: string }) => row.id === "sponsored-gas")).toBe(false);
     expect(route.maxSlippage?.value).toBe("1.00%");
     expect(route.fairValue?.value).toBe("Within 0.05%");
     expect(route.fairValue?.tone).toBe("brand");
@@ -764,5 +770,28 @@ describe("constraintText", () => {
     expect(constraintText("CONFIGURED_MAX_HBAR")).toBe("Server policy cap on HBAR output");
     expect(constraintText("SOMETHING_NEW")).toBe("something new");
     expect(constraintText(null)).toBeNull();
+  });
+});
+
+describe("origin gas pre-check", () => {
+  // The real failure: 0.00081 ETH refused for a 561,800-gas bridge whose actual
+  // cost was ~0.0001 ETH, because a node checks the RESERVED ceiling
+  // (value + gasLimit x maxFeePerGas), not the expected spend.
+  const quote = { bridge: { transaction: { gas: "561800", value: "69537351605144" } } };
+
+  it("warns when the reserved ceiling exceeds the native balance", () => {
+    const check = deriveOriginGasCheck({ quote, nativeBalance: "810370000000000" });
+    expect(check).not.toBeNull();
+    expect(check.text).toContain("reserves up to");
+    expect(check.reserved).toBe(String(69537351605144n + 561800n * 2000000000n));
+  });
+
+  it("stays silent when the balance covers the ceiling", () => {
+    expect(deriveOriginGasCheck({ quote, nativeBalance: "5000000000000000" })).toBeNull();
+  });
+
+  it("says nothing at all without a balance or a bridge transaction", () => {
+    expect(deriveOriginGasCheck({ quote, nativeBalance: null })).toBeNull();
+    expect(deriveOriginGasCheck({ quote: {}, nativeBalance: "1" })).toBeNull();
   });
 });

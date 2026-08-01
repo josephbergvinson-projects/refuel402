@@ -462,9 +462,14 @@ export function derivePriceProtection(quote) {
   const price = quotePriceEvidence(quote);
   const pair = (amount, usd) => {
     const displayed = pairedAmount(amount, decimals, symbol, price.tokenUsd, price.observedAt);
+    // `pairedAmount` already appends the fiat when a token price exists, and the
+    // surface appends `usd` after it — which printed the same figure twice
+    // ("1.256762 USDC.axl · $1.26 · $1.26"). The server-published number is only
+    // a fallback for when there is no token price to derive one from.
+    const alreadyPriced = displayed.value.includes("$");
     return {
       amount: displayed.value,
-      usd: typeof usd === "number" && Number.isFinite(usd) ? formatUsd(usd) : null,
+      usd: alreadyPriced || typeof usd !== "number" || !Number.isFinite(usd) ? null : formatUsd(usd),
       title: displayed.title,
     };
   };
@@ -589,17 +594,12 @@ export function deriveRouteSummary(quote) {
     });
   }
 
-  const sponsoredTinybar = bigintOrNull(quote.costLedger?.summary?.externalExecutionExposureMaximumTinybar);
-  const sponsoredGas = refuel && sponsoredTinybar !== null
-    ? {
-        id: "sponsored-gas",
-        label: "Hedera gas",
-        value: "Sponsored · $0",
-        tone: "brand",
-        title: `Refuel402 authorizes up to ${amountText(sponsoredTinybar, HBAR_DECIMALS, HBAR_SYMBOL).full} HBAR of destination gas. It is never deducted from your bridged amount.`,
-      }
-    : null;
-  if (sponsoredGas) rows.push(sponsoredGas);
+  // No sponsored-gas row. It is not money the owner spends, is not deducted from
+  // the bridged amount, and is not a number they can act on — so in a table of
+  // their costs it was noise at best, and "$0" among dollar figures read as
+  // "this is worth nothing" at worst. Sponsorship is stated once, in the flow
+  // copy, where it means something.
+  const sponsoredGas = null;
 
   const slippageBps = quote.destination?.slippageBps ?? quote.consent?.maxSlippageBps ?? null;
   const maxSlippage = slippageBps === null
@@ -875,4 +875,44 @@ export function derivePickerGroups({ networks = [], tokensFor, search = "", sele
       };
     })
     .filter((group) => group.rows.length > 0);
+}
+
+/**
+ * Whether the origin chain will let this bridge transaction be sent at all.
+ *
+ * A node accepts a transaction only if the sender can cover `value + gasLimit ×
+ * maxFeePerGas` — the RESERVED ceiling, not the expected cost. Wallets set that
+ * ceiling well above the current base fee so the transaction survives a spike,
+ * so an owner can hold many times the real cost and still be refused. That is
+ * exactly what happened: 0.00081 ETH against a 561,800-gas bridge, rejected with
+ * "insufficient funds" while the actual spend would have been ~0.0001 ETH.
+ *
+ * Nothing checked this before the signature, so the first the owner heard of it
+ * was a raw RPC string after their wallet had already signed. This is a warning,
+ * never a gate: the ceiling is the wallet's choice and we cannot know it, so a
+ * conservative estimate must not be allowed to block a transfer that would
+ * actually go through.
+ */
+export function deriveOriginGasCheck({
+  quote = null,
+  nativeBalance = null,
+  nativeSymbol = "ETH",
+  feeCeilingGwei = 2,
+} = {}) {
+  const transaction = quote?.bridge?.transaction;
+  const balance = bigintOrNull(nativeBalance);
+  if (!transaction || balance === null) return null;
+  const gas = bigintOrNull(transaction.gas);
+  const value = bigintOrNull(transaction.value) ?? 0n;
+  if (gas === null || gas <= 0n) return null;
+  const reserved = value + gas * BigInt(Math.round(feeCeilingGwei * 1_000_000_000));
+  if (balance >= reserved) return null;
+  const need = amountText(reserved, 18, nativeSymbol);
+  const have = amountText(balance, 18, nativeSymbol);
+  return {
+    reserved: reserved.toString(),
+    balance: balance.toString(),
+    text: `Your wallet may refuse this: sending it reserves up to ${need.text} for gas and the bridge fee, and you hold ${have.text}. The actual spend is usually far lower — top up ${nativeSymbol} if your wallet rejects it.`,
+    title: `Reserved ceiling = bridge value ${amountText(value, 18, nativeSymbol).full} + ${gas} gas at ${feeCeilingGwei} gwei. Nodes check the ceiling, not the expected cost.`,
+  };
 }

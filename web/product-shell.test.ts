@@ -262,7 +262,7 @@ describe("one optional quote disclosure holding every fee and evidence row", () 
     expect(routeStrip).toContain("route.total.text");
   });
 
-  it("keeps hops, every fee row, sponsored gas, slippage, and the fair-value check inside it", () => {
+  it("keeps hops, every fee row, slippage, and the fair-value check inside it", () => {
     expect(routeStrip).toContain('aria-label="Route hops"');
     expect(routeStrip).toContain("route.rows.map");
     // The mixed-venue/price-impact/max-slippage recital, the quote id and the
@@ -273,8 +273,7 @@ describe("one optional quote disclosure holding every fee and evidence row", () 
     expect(routeStrip).not.toContain("route.quoteId");
     expect(routeStrip).not.toContain("route.expiresAt");
     expect(routeStrip).toContain("route.liquidityUsd");
-    expect(composeModel).toContain('id: "sponsored-gas"');
-    expect(composeModel).toContain("Sponsored · $0");
+    expect(composeModel).not.toContain("Sponsored ·");
     expect(composeModel).toContain('label: "Max slippage"');
     expect(composeModel).toContain('id: "fair-value"');
     expect(composeModel).toContain('label: "Refuel service fee (x402)"');
@@ -682,18 +681,23 @@ describe("journey surfaces read as one calm grammar", () => {
     expect(arrivalConsent).not.toContain('tone="danger"');
   });
 
-  it("keeps the timeline oriented with per-step links, an ETA, and the safe-to-close note", () => {
+  // The seven-row checklist is gone. Its shape promised to walk the owner through
+  // seven interactions when every signature happens up front in MetaMask, so the
+  // surface folds to origin → transit → destination and lists the transactions.
+  it("orients the journey with three phases, one status line, and real transaction links", () => {
     expect(journeyTimeline).toContain("Safe to close this tab.");
     expect(journeyTimeline).toContain("bridgeEta({ journey, quote: state.quote.value })");
-    expect(journeyChrome).toContain("<Timeline");
-    expect(journeyChrome).toContain("<TimelineStep");
-    expect(journeyChrome).toContain("link={step.link}");
+    expect(journeyChrome).toContain("deriveJourneyPhases(state.journeyPresentation.value.progress)");
+    expect(journeyChrome).toContain('class="journey-phases__track"');
+    expect(journeyChrome).toContain("journey-receipt");
+    // No step is ever linked without a reference the server actually recorded.
+    expect(journeyChrome).toContain("steps.filter((step) => step.link && step.reference)");
+    expect(journeyChrome).toContain('rel="noreferrer"');
+    expect(journeyChrome).not.toContain("<TimelineStep");
     expect(journeyModel).toContain("export function hederaTransactionUrl(mode, reference)");
     expect(journeyModel).toContain("export function originTransactionUrl(journey, { networks = [], chainId = null } = {})");
     // A link is only ever built from an explorer the support catalog declares.
     expect(journeyModel).toContain('base.startsWith("https://") ? `${base}/tx/${hash}` : null');
-    expect(uiPrimitives.Timeline).toContain('<ol class={cx("ui-timeline", className)} aria-label={label}>');
-    expect(uiPrimitives.Timeline).toContain('rel="noreferrer"');
   });
 
   it("keeps orientation visible on every recovery surface", () => {

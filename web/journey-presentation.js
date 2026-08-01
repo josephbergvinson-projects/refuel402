@@ -689,11 +689,12 @@ export function evidenceRows({
     reference("Sponsored submission", hash, hederaTransactionUrl(mode, hash));
   }
 
-  const exact = quote?.amountLedger?.hbar?.exactOutputTinybar ?? null;
-  if (exact) {
-    const hbar = formatTokenAmount(exact, 8, "HBAR");
-    push("HBAR requested", `${hbar.display} HBAR`, { title: `${hbar.full} HBAR` });
-  }
+  // "HBAR requested" is gone. The owner chose that number, it is in the journey
+  // subtitle above, and early in a journey it was the ONLY row here — so Details
+  // opened to restate a figure the reader had just typed. This list is for
+  // evidence they cannot otherwise see: hashes, credited amounts, sponsored
+  // submissions. With nothing like that recorded yet, `Evidence` renders nothing
+  // at all, which is the honest state.
   // The bridge provider's status enum, the poll counter and the journey uuid all
   // used to close this list. None of the three is checkable by the person reading
   // it: arrival is already stated by the "Arrival on Hedera" hash row and by the

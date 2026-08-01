@@ -60,7 +60,7 @@ The source in this repository is newer than the deployed generation. It replaces
 
 **This donation-resistant source is locally verified but not deployed.** `contracts/deployments.json` keeps its pending source hash separate from the immutable deployed source hash and receipts.
 
-The exact `npm run check` wrapper covers the Vitest suite, typecheck, deterministic contract compile and verification, executable EVM tests, integration harness, product harness, browser-faithful harness, and production web build. The product harness records a completed journey with exactly three destination-quote events: the initial post-arrival quote plus one refresh for router approval and one for router execution. Permit2 setup uses its own authorization runway and does not add a stale fourth refresh.
+The exact `npm run check` wrapper covers the Vitest suite, typecheck, deterministic contract compile and verification, a component smoke pass that executes every rendered component, the integration harness, the product harness, the browser-faithful harness, and the production web build. It does **not** include an EVM execution test — `server/test/contracts.test.ts` asserts on contract source and artifact hashes, and the contract's runtime behaviour is carried by the mainnet journeys above. The product harness records a completed journey with exactly three destination-quote events: the initial post-arrival quote plus one refresh for router approval and one for router execution. Permit2 setup uses its own authorization runway and does not add a stale fourth refresh.
 
 ## Known limits
 
@@ -151,7 +151,7 @@ npm run e2e:product-harness
 npm run contracts:evm-test
 ```
 
-`npm run check` runs the test suite, typecheck, deterministic contract compile/verification, executable EVM tests, integration harnesses, browser-faithful harness, and web build. By default `e2e:product-harness` provisions disposable PostgreSQL through Docker. When Docker is unavailable, `HARNESS_DATABASE_URL` may point it at an explicitly disposable external database; the harness truncates every Refuel402 table it owns, so never use production or shared state. Release acceptance runs the exact product harness twice. Deployed on-chain evidence and the newer locally verified contract source remain explicitly separate.
+`npm run check` runs the test suite, typecheck, deterministic contract compile/verification, a component smoke pass, the integration harnesses, the browser-faithful harness, and the web build. There is no EVM execution test; see Known limits. By default `e2e:product-harness` provisions disposable PostgreSQL through Docker. When Docker is unavailable, `HARNESS_DATABASE_URL` may point it at an explicitly disposable external database; the harness truncates every Refuel402 table it owns, so never use production or shared state. Release acceptance runs the exact product harness twice. Deployed on-chain evidence and the newer locally verified contract source remain explicitly separate.
 
 ## Documentation and evidence authority
 

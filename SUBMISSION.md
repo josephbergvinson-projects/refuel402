@@ -76,7 +76,7 @@ The public source includes:
 - a PostgreSQL product harness covering `refuelCap` → capped Permit2 approval → `RefuelAuthorization` → wallet boundary → bridge ordering;
 - deterministic browser, API, contract, and production-build gates.
 
-The exact `npm run check` wrapper runs the Vitest suite, typecheck, deterministic contract compile and verification, executable EVM tests, integration harness, product harness, browser-faithful harness, and production web build. Release acceptance ran this wrapper twice. The product proof ended `completed` with one payment, no refresh wallet prompts, and exactly three destination-quote events: the initial post-arrival quote plus router-approval and router-execution refreshes. Permit2 setup correctly uses its own authorization runway and creates no stale fourth market refresh.
+The exact `npm run check` wrapper runs the Vitest suite, typecheck, deterministic contract compile and verification, a component smoke pass that executes every rendered component, the integration harness, the product harness, the browser-faithful harness, and the production web build. It contains no EVM execution test — the contract's runtime behaviour is carried by the mainnet journeys above, and that is stated rather than implied. Release acceptance ran this wrapper twice. The product proof ended `completed` with one payment, no refresh wallet prompts, and exactly three destination-quote events: the initial post-arrival quote plus router-approval and router-execution refreshes. Permit2 setup correctly uses its own authorization runway and creates no stale fourth market refresh.
 
 ## Known limits
 

@@ -12,7 +12,7 @@ A demo should keep three claims separate:
 
 1. **Public application:** the UI and API are reachable at <https://refuel402.pages.dev>.
 2. **Deployed evidence:** the deployment registry and linked HashScan receipts prove completed mainnet refuels on the deployed source generation.
-3. **Current local source:** the donation-resistant balance-delta correction and executable EVM tests are locally verified but not deployed. Current-bytecode testnet whole-product proof is not claimed.
+3. **Current source:** deployed and runtime-verified on both networks, with completed mainnet refuels against the mainnet proxy. There is no EVM execution test in this repository; the contract's behaviour is carried by those on-chain journeys.
 
 The manual destination path uses an HTTP 402 `exact` Permit2 challenge and settlement. The pre-authorized path instead signs a `RefuelAuthorization` before the bridge and collects the bounded service fee inside the atomic `executeRefuel` call. A recording should not describe those as the same wire flow.
 

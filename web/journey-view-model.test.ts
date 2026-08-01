@@ -165,6 +165,31 @@ describe("pre-authorized journey rail", () => {
     }
   });
 
+  // The witness is recorded PART WAY THROUGH, so gating the rail on it showed the
+  // manual order at step one — allowance and fee after "Cross to Hedera" — which
+  // is precisely the post-arrival flow this path exists to remove. At step one is
+  // when the owner reads the list to learn what is coming.
+  it("shows the one-signature order from the very first step, before anything is signed", () => {
+    const rows = deriveJourneyProgress({
+      journey: { events: [{ type: "destination_activation_started" }] },
+      recovery: { nextAtomicStep: "source_wallet_consent" },
+      quote: { refuelAuthorization: { enabled: true } },
+    });
+    expect(rows.map((row) => row.id)).toEqual([
+      "destination", "permit2", "authorize_refuel", "bridge_submit", "arrival", "execution", "reconcile",
+    ]);
+    // Nothing signed yet, so nothing is done — but the ORDER is already honest.
+    expect(rows.every((row) => row.status !== "done")).toBe(true);
+  });
+
+  it("keeps the one-signature rail once the witness exists even without the quote", () => {
+    const rows = deriveJourneyProgress({
+      journey: { refuelAuthorization: { state: "recorded" }, events: [] },
+      recovery: { nextAtomicStep: "poll_bridge" },
+    });
+    expect(rows.map((row) => row.id)).toContain("authorize_refuel");
+  });
+
   it("keeps the manual rail, fee prompt and all, when nothing was pre-authorized", () => {
     const rows = deriveJourneyProgress({
       journey: { events: [{ type: "destination_activation_funded" }] },

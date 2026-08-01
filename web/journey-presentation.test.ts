@@ -528,8 +528,20 @@ describe("evidence and server voice", () => {
     expect(rows.find((row: { label: string }) => row.label === "Service fee payment").href)
       .toBe(`https://hashscan.io/mainnet/transaction/${OTHER_HASH}`);
     expect(rows.find((row: { label: string }) => row.label === "Amount credited").value).toBe("23.61 USDC.axl");
-    // The list now ends on a fact about the transfer, not on an internal id.
-    expect(labels.at(-1)).toBe("HBAR requested");
+    // Every row is evidence the owner cannot otherwise see. "HBAR requested" was
+    // not: they chose that number, it is in the subtitle above, and early in a
+    // journey it was the only row — so Details opened to restate their own input.
+    expect(labels).not.toContain("HBAR requested");
+    // Every remaining row is something only the server can tell them.
+    expect(labels).toContain("Amount credited");
+    expect(labels.every((label: string) => label !== "HBAR requested")).toBe(true);
+  });
+
+  it("renders nothing at all before there is any evidence to show", () => {
+    expect(evidenceRows({
+      journey: journeyFixture({ events: [] }),
+      quote: { amountLedger: { hbar: { exactOutputTinybar: "1000000000" } } },
+    })).toEqual([]);
   });
 
   it("offers no link for a chain the catalog declares no explorer for", () => {

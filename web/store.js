@@ -168,6 +168,10 @@ export function createStore({
   const networkValue = signal(null);
   const tokenValue = signal(null);
   const tokenBalanceValue = signal(null);
+  // The gas the origin chain reserves is paid in the NATIVE asset, which is only
+  // the selected token when the owner happens to be bridging it. Held separately
+  // so a USDC transfer can still be told it lacks ETH.
+  const nativeBalanceValue = signal(null);
   const tokenBalanceStatusValue = signal("idle");
   const tokenBalanceErrorValue = signal(null);
 
@@ -350,6 +354,7 @@ export function createStore({
   const journeyPresentation = computed(() => deriveJourneyPresentation({
     journey: journeyValue.value,
     recovery: recoveryValue.value,
+    quote: quoteValue.value,
     quoteLive: destinationQuoteState.value.live,
     routeMode: routeModeValue.value,
   }));
@@ -406,6 +411,7 @@ export function createStore({
     network: computed(() => networkValue.value),
     token: computed(() => tokenValue.value),
     tokenBalance: computed(() => tokenBalanceValue.value),
+    nativeBalance: computed(() => nativeBalanceValue.value),
     tokenBalanceStatus: computed(() => tokenBalanceStatusValue.value),
     tokenBalanceError: computed(() => tokenBalanceErrorValue.value),
 
@@ -703,9 +709,13 @@ export function createStore({
       const balance = token.native
         ? await wallet.nativeBalance(account)
         : await wallet.tokenBalance(token.address, account);
+      // Never fatal: the token balance is what gates the amount, and a failed
+      // native read only costs the owner the gas warning.
+      const native = token.native ? balance : await wallet.nativeBalance(account).catch(() => null);
       if (!currentRequestStillApplies()) return;
       batch(() => {
         tokenBalanceValue.value = balance;
+        nativeBalanceValue.value = native;
         tokenBalanceStatusValue.value = "ready";
       });
     } catch (error) {

@@ -338,6 +338,8 @@ export function createProductQuoteHandler(options: {
       }
       if (error instanceof BridgeAdapterError) {
         const userRouteError = ["PROVIDER_ROUTE_UNAVAILABLE", "PROVIDER_UNSUPPORTED_TOKEN_NETWORK", "STALE_QUOTE"].includes(error.code);
+        // A paused provider is retriable and is emphatically not the owner's
+        // fault, so it keeps 503 while carrying its own actionable message.
         return failure(res, userRouteError ? 422 : 503, error.code, error.message, !userRouteError);
       }
       // The owner's own cap, not an outage: 422 and never retriable, because
