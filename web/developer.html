@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="dark light" />
+    <title>Refuel402 — developer diagnostics</title>
+  </head>
+  <body>
+    <header class="dev-header">
+      <h1 class="dev-brand"><a href="/"><span class="dev-brand-mark" aria-hidden="true">◎</span><span>Refuel<em>402</em></span></a></h1>
+      <a class="dev-back" href="/">Back to product</a>
+    </header>
+    <main class="dev-main">
+      <section class="dev-intro">
+        <p class="dev-eyebrow">Developer diagnostics</p>
+        <h2>Inspect the execution boundary.</h2>
+        <p>Read-only service, account, policy-RPC, and stock-MetaMask checks. This page has no bridge, sponsor, treasury, or deployment mutation controls.</p>
+      </section>
+
+      <section class="dev-card">
+        <div class="dev-card-head"><div><p class="dev-kicker">Runtime</p><h3>Read surfaces</h3></div><span class="dev-tag" id="apiState">Checking</span></div>
+        <div class="dev-grid">
+          <div><span>Health</span><strong id="healthValue">—</strong></div>
+          <div><span>Execution</span><strong id="executionValue">—</strong></div>
+          <div><span>Network</span><strong id="networkValue">—</strong></div>
+          <div><span>Support catalog</span><strong id="tokenValue">—</strong></div>
+        </div>
+        <nav class="dev-links" aria-label="Read-only endpoints">
+          <a href="/v1/product/options?mode=testnet" data-api-path="/v1/product/options?mode=testnet" target="_blank" rel="noreferrer">Product options</a>
+          <a href="/v1/product/policy-rpc" data-api-path="/v1/product/policy-rpc" target="_blank" rel="noreferrer">Policy RPC</a>
+          <a href="/v1/openapi.json" data-api-path="/v1/openapi.json" target="_blank" rel="noreferrer">OpenAPI</a>
+          <a href="/.well-known/x402" data-api-path="/.well-known/x402" target="_blank" rel="noreferrer">x402 manifest</a>
+        </nav>
+      </section>
+
+      <section class="dev-card">
+        <div class="dev-card-head"><div><p class="dev-kicker">Account</p><h3>Mirror inspection</h3></div><span class="dev-tag">Read only</span></div>
+        <label class="dev-label" for="accountInput">Hedera account ID or EVM address</label>
+        <div class="dev-input-row"><input id="accountInput" placeholder="0.0.x or 0x…" autocomplete="off" /><button class="dev-button" id="inspectAccount" type="button">Inspect</button></div>
+        <pre class="dev-output" id="accountOutput" aria-live="polite">No account inspected.</pre>
+      </section>
+
+      <section class="dev-card">
+        <div class="dev-card-head"><div><p class="dev-kicker">Core wallet</p><h3>Stock MetaMask</h3></div><span class="dev-tag">One address</span></div>
+        <p class="dev-copy">Requests only injected EIP-1193 account and chain state. The product uses <code>eth_sendTransaction</code> and <code>eth_signTypedData_v4</code>; it never requests raw signing or a Hedera-native namespace.</p>
+        <button class="dev-button" id="metamaskButton" type="button">Connect MetaMask</button>
+        <p class="dev-state" id="metamaskState" aria-live="polite">Disconnected</p>
+      </section>
+    </main>
+    <script type="module" src="/developer.js"></script>
+  </body>
+</html>

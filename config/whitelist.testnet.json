@@ -1,0 +1,139 @@
+{
+  "network": "testnet",
+  "generatedAt": "2026-07-20T13:29:08.712Z",
+  "hbarUsd": null,
+  "criteria": {
+    "minTvlUsd": null,
+    "minDepthHbar": null,
+    "maxImpactBpsAtMaxFuel": 150,
+    "maxFuelHbar": 50,
+    "hardRejects": [
+      "no direct WHBAR V2 pool",
+      "custom transfer fees",
+      "KYC key"
+    ]
+  },
+  "tokens": [
+    {
+      "symbol": "USDC",
+      "tokenId": "0.0.5449",
+      "evmAddress": "0x0000000000000000000000000000000000001549",
+      "decimals": 6,
+      "poolFee": 3000,
+      "priceUsd": null,
+      "poolTvlUsd": null,
+      "whbarDepthHbar": null,
+      "impactBps": 40,
+      "impactSource": "quoter",
+      "maxFuelHbar": 50,
+      "suggestedMaxAmountIn": "48877962",
+      "dueDiligenceComplete": null,
+      "riskFlags": [],
+      "bridge": null
+    },
+    {
+      "symbol": "SAUCE",
+      "tokenId": "0.0.1183558",
+      "evmAddress": "0x0000000000000000000000000000000000120f46",
+      "decimals": 6,
+      "poolFee": 3000,
+      "priceUsd": null,
+      "poolTvlUsd": null,
+      "whbarDepthHbar": null,
+      "impactBps": 28,
+      "impactSource": "quoter",
+      "maxFuelHbar": 50,
+      "suggestedMaxAmountIn": "2339981533",
+      "dueDiligenceComplete": null,
+      "riskFlags": [],
+      "bridge": null
+    },
+    {
+      "symbol": "DAI",
+      "tokenId": "0.0.5529",
+      "evmAddress": "0x0000000000000000000000000000000000001599",
+      "decimals": 8,
+      "poolFee": 3000,
+      "route": [
+        {
+          "toToken": "0x0000000000000000000000000000000000001549",
+          "fee": 500
+        },
+        {
+          "toToken": "0x0000000000000000000000000000000000003ad2",
+          "fee": 3000
+        }
+      ],
+      "priceUsd": null,
+      "poolTvlUsd": null,
+      "whbarDepthHbar": null,
+      "impactBps": 40,
+      "impactSource": "quoter",
+      "maxFuelHbar": 50,
+      "suggestedMaxAmountIn": "4879721026",
+      "dueDiligenceComplete": null,
+      "riskFlags": [
+        "multi-hop via USDC@500->WHBAR@3000"
+      ],
+      "bridge": null
+    },
+    {
+      "symbol": "CLXY",
+      "tokenId": "0.0.5365",
+      "evmAddress": "0x00000000000000000000000000000000000014f5",
+      "decimals": 6,
+      "poolFee": 3000,
+      "route": [
+        {
+          "toToken": "0x0000000000000000000000000000000000120f46",
+          "fee": 3000
+        },
+        {
+          "toToken": "0x0000000000000000000000000000000000003ad2",
+          "fee": 3000
+        }
+      ],
+      "priceUsd": null,
+      "poolTvlUsd": null,
+      "whbarDepthHbar": null,
+      "impactBps": 28,
+      "impactSource": "quoter",
+      "maxFuelHbar": 50,
+      "suggestedMaxAmountIn": "2177239487",
+      "dueDiligenceComplete": null,
+      "riskFlags": [
+        "multi-hop via SAUCE@3000->WHBAR@3000"
+      ],
+      "bridge": null
+    },
+    {
+      "symbol": "KARATE",
+      "tokenId": "0.0.3772909",
+      "evmAddress": "0x00000000000000000000000000000000003991ed",
+      "decimals": 8,
+      "poolFee": 3000,
+      "priceUsd": null,
+      "poolTvlUsd": null,
+      "whbarDepthHbar": null,
+      "impactBps": 79,
+      "impactSource": "quoter",
+      "maxFuelHbar": 50,
+      "suggestedMaxAmountIn": "1118643222",
+      "dueDiligenceComplete": null,
+      "riskFlags": [],
+      "bridge": null
+    }
+  ],
+  "rejected": [
+    {
+      "symbol": "HLQT",
+      "tokenId": "0.0.4360535",
+      "reasons": [
+        "fee 500: no quoter route",
+        "fee 1500: no quoter route",
+        "fee 3000: impact 448bps > 150bps at 50 HBAR",
+        "fee 10000: no quoter route"
+      ]
+    }
+  ]
+}

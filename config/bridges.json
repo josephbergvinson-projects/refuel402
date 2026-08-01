@@ -1,0 +1,46 @@
+{
+  "_comment": "Live bridges INTO Hedera mainnet, verified on-chain 2026-07-20. hashport wound down 2026-05-31 (its [hts] tokens are unbacked remnants — kept only so the inspector can warn holders). Token IDs decoded from Squid/Axelar long-zero addresses and confirmed on the mirror node. 'fuelableToday' = clears Refuel402's DIRECT single-hop WHBAR liquidity bar; most bridged assets do NOT (thin pools). USDC.axl/USDT0 have deep USDC-pool liquidity fuelable via a USDC hop (roadmap). Bridges are mainnet-only (chainId 295); Hedera testnet is not a bridge destination. Native HBAR (0xEeee…EEeE) needs no token association — deliver that to a zero-HBAR account.",
+  "axelar": {
+    "displayName": "Axelar (Squid)",
+    "live": true,
+    "docs": "https://docs.squidrouter.com",
+    "chainId": 295,
+    "deepLink": "https://app.squidrouter.com/?chains=1,295&tokens={srcToken},{dstToken}",
+    "widgetIframe": "https://studio.squidrouter.com/iframe?config={config}",
+    "nativeHbarEvm": "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
+    "nativeGasDropOnHedera": "Squid 'Arrival Gas' / native-HBAR output exists but was low-liquidity/degraded on 2026-07-20; do not rely on it — that is Refuel402's wedge",
+    "tokens": {
+      "0.0.10285486": { "symbol": "USDC.axl", "decimals": 6, "saucerTvlUsd": 50900, "fuelableToday": false, "note": "deep USDC-pool liquidity — fuelable via USDC hop (roadmap)" },
+      "0.0.10483480": { "symbol": "QNT", "decimals": 6, "saucerTvlUsd": 14400, "fuelableToday": false, "note": "closest bridged asset to the direct-WHBAR bar" },
+      "0.0.10485149": { "symbol": "WAVAX", "decimals": 6, "saucerTvlUsd": 5100, "fuelableToday": false },
+      "0.0.10485043": { "symbol": "WBNB", "decimals": 6, "saucerTvlUsd": 2700, "fuelableToday": false },
+      "0.0.10489307": { "symbol": "LINK.axl", "decimals": 6, "saucerTvlUsd": 2500, "fuelableToday": false },
+      "0.0.10483528": { "symbol": "LCX", "decimals": 6, "saucerTvlUsd": 614, "fuelableToday": false }
+    }
+  },
+  "layerzero": {
+    "displayName": "LayerZero (Stargate)",
+    "live": true,
+    "docs": "https://docs.layerzero.network",
+    "chainId": 295,
+    "deepLink": "https://stargate.finance/bridge?srcChain=ethereum&srcToken={srcToken}&dstChain=hedera&dstToken={dstToken}",
+    "nativeGasDropOnHedera": "measured dead: Stargate UI caps 'gas on destination' for Hedera at 0.000000002 HBAR; LayerZero executors toward Hedera have nativeCap=0",
+    "tokens": {
+      "0.0.10282787": { "symbol": "USDT0", "decimals": 6, "saucerTvlUsd": 362000, "fuelableToday": false, "note": "best bridged asset overall — $350K via a USDC hop (roadmap), thin direct WHBAR" },
+      "0.0.10082597": { "symbol": "HTS-WBTC", "decimals": 8, "saucerTvlUsd": 27000, "fuelableToday": false, "note": "WBTC lands as ERC-20; wrap to HTS first" },
+      "0.0.9770617": { "symbol": "HTS-WETH", "decimals": 8, "saucerTvlUsd": 461, "fuelableToday": false, "note": "WETH lands as ERC-20; wrap to HTS first; pool nearly drained" }
+    }
+  },
+  "hashport": {
+    "displayName": "hashport (defunct)",
+    "live": false,
+    "docs": "https://hashport-network.medium.com/the-final-chapter-hashport-to-wind-down-operations-on-may-31-2026-12-00-utc-c2e0aa335c46",
+    "nativeGasDropOnHedera": "n/a — bridge wound down 2026-05-31; wrapped [hts] assets are unbacked",
+    "tokens": {
+      "0.0.541564": { "symbol": "WETH[hts]", "decimals": 8, "saucerTvlUsd": 0, "fuelableToday": false, "note": "DEFUNCT bridge — unbacked remnant, phantom liquidity" },
+      "0.0.1055483": { "symbol": "WBTC[hts]", "decimals": 8, "saucerTvlUsd": 0, "fuelableToday": false, "note": "DEFUNCT bridge — unbacked remnant" },
+      "0.0.1055459": { "symbol": "USDC[hts]", "decimals": 6, "saucerTvlUsd": 0, "fuelableToday": false, "note": "DEFUNCT bridge — unbacked remnant" },
+      "0.0.1055472": { "symbol": "USDT[hts]", "decimals": 6, "saucerTvlUsd": 0, "fuelableToday": false, "note": "DEFUNCT bridge — unbacked remnant" }
+    }
+  }
+}

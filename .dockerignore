@@ -1,0 +1,11 @@
+node_modules
+.git
+.env
+.env.*
+!.env.example
+data
+proofs/local
+proofs/live
+.wrangler
+*.log
+.DS_Store

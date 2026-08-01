@@ -1,0 +1,172 @@
+/*
+ * Design tokens. Dark is the default surface. Light applies when the OS asks
+ * for it and no explicit dark override is set; :root[data-theme] wins in both
+ * directions (data-theme="dark" survives an OS light preference, and
+ * data-theme="light" survives an OS dark preference).
+ */
+:root {
+  color-scheme: dark;
+
+  --bg: #0b0e14;
+  --bg-glow-a: rgba(64, 224, 158, 0.07);
+  --bg-glow-b: rgba(96, 140, 255, 0.06);
+  --card: #12161f;
+  --raised: #171c27;
+  --field: #0d1118;
+  --line: rgba(148, 163, 184, 0.1);
+  --line-strong: rgba(148, 163, 184, 0.18);
+
+  --text: #eef2f7;
+  --text-2: #9aa5b4;
+  --text-3: #7d8695;
+  --text-on-brand: #06130d;
+
+  --mint: #40e09e;
+  --mint-dim: rgba(64, 224, 158, 0.12);
+  --mint-line: rgba(64, 224, 158, 0.35);
+  --blue: #6f9fff;
+  --blue-dim: rgba(111, 159, 255, 0.12);
+  --blue-line: rgba(111, 159, 255, 0.35);
+  --amber: #f5b45c;
+  --amber-dim: rgba(245, 180, 92, 0.12);
+  --amber-line: rgba(245, 180, 92, 0.35);
+  --red: #ff7a7a;
+  --red-dim: rgba(255, 122, 122, 0.12);
+  --red-line: rgba(255, 122, 122, 0.35);
+
+  --track: rgba(148, 163, 184, 0.14);
+  --gradient-primary: linear-gradient(92deg, var(--mint), #4fd1a1 55%, #58b6ff 130%);
+  --gradient-mark: linear-gradient(135deg, var(--mint), #58b6ff);
+
+  --radius: 20px;
+  --radius-inner: 14px;
+  --radius-small: 10px;
+  --radius-pill: 999px;
+
+  --space-1: 4px;
+  --space-2: 6px;
+  --space-3: 8px;
+  --space-4: 10px;
+  --space-5: 12px;
+  --space-6: 14px;
+  --space-7: 16px;
+  --space-8: 20px;
+  --space-9: 24px;
+  --space-10: 32px;
+  --space-11: 40px;
+
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  --text-amount: 30px;
+  --text-amount-secondary: 22px;
+  --text-lg: 19px;
+  --text-md: 17px;
+  --text-base: 15px;
+  --text-sm: 13px;
+  --text-xs: 12.5px;
+  --text-2xs: 11.5px;
+  --text-3xs: 10.5px;
+  --leading: 1.5;
+  --leading-tight: 1.25;
+
+  --shadow-card: 0 24px 70px rgba(0, 0, 0, 0.45);
+  --shadow-raised: 0 2px 10px rgba(0, 0, 0, 0.35);
+  --shadow-primary: 0 10px 34px rgba(64, 224, 158, 0.22);
+  --focus-ring-width: 2px;
+
+  --z-base: 0;
+  --z-sticky: 10;
+  --z-dropdown: 20;
+  --z-backdrop: 30;
+  --z-modal: 40;
+  --z-toast: 50;
+
+  --motion-instant: 80ms;
+  --motion-fast: 140ms;
+  --motion-base: 220ms;
+  --motion-slow: 420ms;
+  --ease: cubic-bezier(0.2, 0.7, 0.3, 1);
+
+  --card-width: 480px;
+  --shell-width: 1120px;
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    color-scheme: light;
+
+    --bg: #f4f6fa;
+    --bg-glow-a: rgba(16, 168, 118, 0.14);
+    --bg-glow-b: rgba(59, 111, 224, 0.12);
+    --card: #ffffff;
+    --raised: #f2f4f8;
+    --field: #f7f9fc;
+    --line: rgba(15, 23, 42, 0.08);
+    --line-strong: rgba(15, 23, 42, 0.16);
+
+    --text: #0d1424;
+    --text-2: #4b5568;
+    --text-3: #5f6878;
+    --text-on-brand: #04150e;
+
+    --mint: #06664a;
+    --mint-dim: rgba(6, 102, 74, 0.1);
+    --mint-line: rgba(6, 102, 74, 0.32);
+    --blue: #2f60cc;
+    --blue-dim: rgba(47, 96, 204, 0.1);
+    --blue-line: rgba(47, 96, 204, 0.3);
+    --amber: #8f5e0e;
+    --amber-dim: rgba(143, 94, 14, 0.1);
+    --amber-line: rgba(143, 94, 14, 0.3);
+    --red: #bf2626;
+    --red-dim: rgba(191, 38, 38, 0.1);
+    --red-line: rgba(191, 38, 38, 0.3);
+
+    --track: rgba(15, 23, 42, 0.12);
+    --gradient-primary: linear-gradient(92deg, #10a876, #14b98a 55%, #3b6fe0 130%);
+    --gradient-mark: linear-gradient(135deg, #10a876, #3b6fe0);
+
+    --shadow-card: 0 18px 50px rgba(15, 23, 42, 0.12);
+    --shadow-raised: 0 1px 4px rgba(15, 23, 42, 0.1);
+    --shadow-primary: 0 10px 30px rgba(16, 168, 118, 0.24);
+  }
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+
+  --bg: #f4f6fa;
+  --bg-glow-a: rgba(16, 168, 118, 0.14);
+  --bg-glow-b: rgba(59, 111, 224, 0.12);
+  --card: #ffffff;
+  --raised: #f2f4f8;
+  --field: #f7f9fc;
+  --line: rgba(15, 23, 42, 0.08);
+  --line-strong: rgba(15, 23, 42, 0.16);
+
+  --text: #0d1424;
+  --text-2: #4b5568;
+  --text-3: #5f6878;
+  --text-on-brand: #04150e;
+
+  --mint: #06664a;
+  --mint-dim: rgba(6, 102, 74, 0.1);
+  --mint-line: rgba(6, 102, 74, 0.32);
+  --blue: #2f60cc;
+  --blue-dim: rgba(47, 96, 204, 0.1);
+  --blue-line: rgba(47, 96, 204, 0.3);
+  --amber: #8f5e0e;
+  --amber-dim: rgba(143, 94, 14, 0.1);
+  --amber-line: rgba(143, 94, 14, 0.3);
+  --red: #bf2626;
+  --red-dim: rgba(191, 38, 38, 0.1);
+  --red-line: rgba(191, 38, 38, 0.3);
+
+  --track: rgba(15, 23, 42, 0.12);
+  --gradient-primary: linear-gradient(92deg, #10a876, #14b98a 55%, #3b6fe0 130%);
+  --gradient-mark: linear-gradient(135deg, #10a876, #3b6fe0);
+
+  --shadow-card: 0 18px 50px rgba(15, 23, 42, 0.12);
+  --shadow-raised: 0 1px 4px rgba(15, 23, 42, 0.1);
+  --shadow-primary: 0 10px 30px rgba(16, 168, 118, 0.24);
+}

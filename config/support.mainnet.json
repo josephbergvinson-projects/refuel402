@@ -1,0 +1,240 @@
+{
+  "schema": "refuel402.support-catalog.v1",
+  "mode": "mainnet",
+  "evidenceAt": "2026-07-25T16:58:17Z",
+  "hedera": {
+    "chainId": 295,
+    "caip2": "eip155:295",
+    "name": "Hedera Mainnet",
+    "icon": "https://icons-ckg.pages.dev/lz-scan/networks/hedera.svg"
+  },
+  "originNetworks": [
+    { "chainId": "1", "name": "Ethereum", "icon": "https://icons-ckg.pages.dev/lz-scan/networks/ethereum.svg", "explorer": "https://etherscan.io", "providers": ["axelar", "layerzero"], "discoveryStatus": "provider_quote_required" },
+    { "chainId": "42161", "name": "Arbitrum", "icon": "https://icons-ckg.pages.dev/lz-scan/networks/arbitrum.svg", "explorer": "https://arbiscan.io", "providers": ["axelar", "layerzero"], "discoveryStatus": "provider_quote_required" },
+    { "chainId": "8453", "name": "Base", "icon": "https://icons-ckg.pages.dev/lz-scan/networks/base.svg", "explorer": "https://basescan.org", "providers": ["axelar", "layerzero"], "discoveryStatus": "provider_quote_required" },
+    { "chainId": "43114", "name": "Avalanche", "icon": "https://icons-ckg.pages.dev/lz-scan/networks/avalanche.svg", "explorer": "https://snowtrace.io", "providers": ["axelar"], "discoveryStatus": "provider_quote_required" },
+    { "chainId": "56", "name": "BNB Chain", "icon": "https://icons-ckg.pages.dev/lz-scan/networks/bsc.svg", "explorer": "https://bscscan.com", "providers": ["axelar"], "discoveryStatus": "provider_quote_required" },
+    { "chainId": "137", "name": "Polygon", "icon": "https://icons-ckg.pages.dev/lz-scan/networks/polygon.svg", "explorer": "https://polygonscan.com", "providers": ["axelar"], "discoveryStatus": "provider_quote_required" }
+  ],
+  "assets": [
+    {
+      "id": "axelar:mainnet:usdc",
+      "provider": "axelar",
+      "providerLabel": "Axelar / Squid",
+      "symbol": "USDC.axl",
+      "name": "USD Coin (Axelar)",
+      "icon": "https://icons-ckg.pages.dev/lz-scan/tokens/usdc.svg",
+      "originNetworks": ["1", "42161", "8453", "43114", "56", "137"],
+      "originTokens": [
+        { "chainId": "1", "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48", "decimals": 6, "symbol": "USDC", "name": "USD Coin", "icon": "https://icons-ckg.pages.dev/lz-scan/tokens/usdc.svg" }
+      ],
+      "destination": { "standard": "HTS", "tokenId": "0.0.10285486", "address": "0x00000000000000000000000000000000009cf1ae", "decimals": 6, "arrival": "activation_required" },
+      "saucer": {
+        "status": "verified",
+        "route": [
+          { "toToken": "0x000000000000000000000000000000000006f89a", "fee": 500 },
+          { "toToken": "0x0000000000000000000000000000000000163b5a", "fee": 1500 }
+        ],
+        "quotedAmountInAt50Hbar": "3319952",
+        "gasEstimate": "159424",
+        "evidence": "Live QuoterV2 exact-output through USDC 500 -> WHBAR 1500."
+      },
+      "x402": { "transferMethod": "permit2", "status": "deployed_verified" },
+      "sponsorship": { "status": "runtime_gated" },
+      "discovery": true,
+      "quote": true,
+      "execute": true,
+      "blockers": []
+    },
+    {
+      "id": "layerzero:mainnet:weth",
+      "provider": "layerzero",
+      "providerLabel": "Stargate V2 Fast / LayerZero",
+      "symbol": "WETH",
+      "name": "Wrapped Ether",
+      "icon": "https://icons-ckg.pages.dev/lz-scan/tokens/weth.svg",
+      "originNetworks": ["1"],
+      "originTokens": [
+        { "chainId": "1", "address": "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE", "decimals": 18, "symbol": "ETH", "name": "Ether", "icon": "https://icons-ckg.pages.dev/lz-scan/tokens/eth.svg", "native": true }
+      ],
+      "destination": {
+        "standard": "ERC20",
+        "address": "0xCa367694CDaC8f152e33683BB36CC9d6A73F1ef2",
+        "decimals": 18,
+        "arrival": "activation_required",
+        "wrapper": {
+          "contractId": "0.0.9675688",
+          "address": "0x000000000000000000000000000000000093a3a8",
+          "htsTokenId": "0.0.9770617",
+          "htsAddress": "0x0000000000000000000000000000000000951679",
+          "htsDecimals": 8,
+          "rate": "10000000000"
+        }
+      },
+      "saucer": { "status": "below_liquidity_policy", "route": [{ "toToken": "0x0000000000000000000000000000000000163b5a", "fee": 1500 }], "quotedAmountInAt50Hbar": "178737", "gasEstimate": "127251", "evidence": "Route exists, but authorized SaucerSwap analytics showed about $463 in the direct WHBAR pool and about $104 in the USDC pool, both below the $20,000 product floor." },
+      "x402": { "transferMethod": "permit2", "status": "deployed_verified" },
+      "sponsorship": { "status": "runtime_gated" },
+      "discovery": true,
+      "quote": false,
+      "execute": false,
+      "blockers": ["SAUCER_LIQUIDITY_POLICY"]
+    },
+    {
+      "id": "layerzero:mainnet:wbtc",
+      "provider": "layerzero",
+      "providerLabel": "LayerZero OFT",
+      "symbol": "WBTC",
+      "name": "Wrapped Bitcoin",
+      "icon": "https://icons-ckg.pages.dev/lz-scan/tokens/wbtc.svg",
+      "originNetworks": ["1", "42161"],
+      "originTokens": [
+        { "chainId": "1", "address": "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599", "decimals": 8, "symbol": "WBTC", "name": "Wrapped Bitcoin", "icon": "https://icons-ckg.pages.dev/lz-scan/tokens/wbtc.svg" }
+      ],
+      "destination": {
+        "standard": "ERC20",
+        "address": "0xd7d4d91d64a6061fa00a94e2b3a2d2a5fb677849",
+        "decimals": 8,
+        "arrival": "activation_required",
+        "wrapper": {
+          "contractId": "0.0.9675688",
+          "address": "0x000000000000000000000000000000000093a3a8",
+          "htsTokenId": "0.0.10082597",
+          "htsAddress": "0x000000000000000000000000000000000099d925",
+          "htsDecimals": 8,
+          "rate": "1"
+        }
+      },
+      "saucer": { "status": "verified", "route": [{ "toToken": "0x000000000000000000000000000000000006f89a", "fee": 1500 }, { "toToken": "0x0000000000000000000000000000000000163b5a", "fee": 1500 }], "quotedAmountInAt50Hbar": "5153", "gasEstimate": "172243", "evidence": "Fresh 2026-07-23 complete-graph proof found two liquidity-eligible V2 routes; the selected HTS-WBTC 1500 -> USDC 1500 -> WHBAR route had a $23,981 minimum-liquidity leg and quoted 112 HTS-WBTC base units for exactly 1 HBAR." },
+      "x402": { "transferMethod": "permit2", "status": "deployed_verified" },
+      "sponsorship": { "status": "runtime_gated" },
+      "discovery": true,
+      "quote": true,
+      "execute": true,
+      "blockers": []
+    },
+    {
+      "id": "layerzero:mainnet:usdt0",
+      "provider": "layerzero",
+      "providerLabel": "LayerZero / USDT0",
+      "symbol": "USDT0",
+      "name": "Tether USD0",
+      "icon": "https://icons-ckg.pages.dev/lz-scan/tokens/usdt.svg",
+      "originNetworks": ["1"],
+      "originTokens": [
+        { "chainId": "1", "address": "0xdAC17F958D2ee523a2206206994597C13D831ec7", "decimals": 6, "symbol": "USDT", "name": "Tether USD", "icon": "https://icons-ckg.pages.dev/lz-scan/tokens/usdt.svg" }
+      ],
+      "destination": { "standard": "HTS", "tokenId": "0.0.10282787", "address": "0x00000000000000000000000000000000009ce723", "decimals": 6, "arrival": "activation_required" },
+      "saucer": { "status": "verified", "route": [{ "toToken": "0x000000000000000000000000000000000006f89a", "fee": 500 }, { "toToken": "0x0000000000000000000000000000000000163b5a", "fee": 1500 }], "quotedAmountInAt50Hbar": "3348481", "gasEstimate": "158415", "evidence": "Authorized SaucerSwap analytics showed about $354,068 in USDT0/USDC; live QuoterV2 exact-output used USDT0 500 -> USDC 1500 -> WHBAR." },
+      "x402": { "transferMethod": "permit2", "status": "deployed_verified" },
+      "sponsorship": { "status": "runtime_gated" },
+      "discovery": true,
+      "quote": true,
+      "execute": true,
+      "blockers": [],
+      "riskDisclosures": [
+        { "code": "TOKEN_ADMIN_KEY_PRESENT", "severity": "high", "message": "USDT0 retains an administrator key; the token contract can be changed by its administrator." },
+        { "code": "TOKEN_FREEZE_KEY_PRESENT", "severity": "high", "message": "USDT0 retains a freeze key; balances may be frozen by the token authority." }
+      ]
+    },
+    {
+      "id": "axelar:mainnet:qnt",
+      "provider": "axelar",
+      "providerLabel": "Axelar / Squid",
+      "symbol": "QNT",
+      "name": "Quant (Axelar)",
+      "icon": "https://icons-ckg.pages.dev/lz-scan/tokens/qnt.svg",
+      "originNetworks": ["1"],
+      "originTokens": [
+        { "chainId": "1", "address": "0x4a220E6096B25EADb88358cb44068A3248254675", "decimals": 18, "symbol": "QNT", "name": "Quant", "icon": "https://icons-ckg.pages.dev/lz-scan/tokens/qnt.svg" }
+      ],
+      "destination": { "standard": "HTS", "tokenId": "0.0.10483480", "address": "0x00000000000000000000000000000000009ff718", "decimals": 6, "arrival": "activation_required" },
+      "saucer": { "status": "below_liquidity_policy", "route": [{ "toToken": "0x0000000000000000000000000000000000163b5a", "fee": 1500 }], "evidence": "Direct pool exists; observed TVL below the 20,000 USD policy floor." },
+      "x402": { "transferMethod": "permit2", "status": "deployed_verified" },
+      "sponsorship": { "status": "runtime_gated" },
+      "discovery": true,
+      "quote": false,
+      "execute": false,
+      "blockers": ["SAUCER_LIQUIDITY_POLICY"]
+    },
+    {
+      "id": "axelar:mainnet:wavax",
+      "provider": "axelar",
+      "providerLabel": "Axelar / Squid",
+      "symbol": "WAVAX",
+      "name": "Wrapped AVAX (Axelar)",
+      "icon": "https://icons-ckg.pages.dev/lz-scan/tokens/wavax.svg",
+      "originNetworks": ["43114"],
+      "originTokens": [
+        { "chainId": "43114", "address": "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7", "decimals": 18, "symbol": "WAVAX", "name": "Wrapped AVAX", "icon": "https://icons-ckg.pages.dev/lz-scan/tokens/wavax.svg" }
+      ],
+      "destination": { "standard": "HTS", "tokenId": "0.0.10485149", "address": "0x00000000000000000000000000000000009ffd9d", "decimals": 6, "providerAmountDecimals": 18, "arrival": "activation_required" },
+      "saucer": { "status": "below_liquidity_policy", "route": [{ "toToken": "0x0000000000000000000000000000000000163b5a", "fee": 1500 }] },
+      "x402": { "transferMethod": "permit2", "status": "deployed_verified" },
+      "sponsorship": { "status": "runtime_gated" },
+      "discovery": true,
+      "quote": false,
+      "execute": false,
+      "blockers": ["SAUCER_LIQUIDITY_POLICY"]
+    },
+    {
+      "id": "axelar:mainnet:wbnb",
+      "provider": "axelar",
+      "providerLabel": "Axelar / Squid",
+      "symbol": "WBNB",
+      "name": "Wrapped BNB (Axelar)",
+      "icon": "https://icons-ckg.pages.dev/lz-scan/tokens/wbnb.svg",
+      "originNetworks": ["56"],
+      "originTokens": [
+        { "chainId": "56", "address": "0xBB4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c", "decimals": 18, "symbol": "WBNB", "name": "Wrapped BNB", "icon": "https://icons-ckg.pages.dev/lz-scan/tokens/wbnb.svg" }
+      ],
+      "destination": { "standard": "HTS", "tokenId": "0.0.10485043", "address": "0x00000000000000000000000000000000009ffd33", "decimals": 6, "arrival": "activation_required" },
+      "saucer": { "status": "below_liquidity_policy", "route": [{ "toToken": "0x0000000000000000000000000000000000163b5a", "fee": 1500 }] },
+      "x402": { "transferMethod": "permit2", "status": "deployed_verified" },
+      "sponsorship": { "status": "runtime_gated" },
+      "discovery": true,
+      "quote": false,
+      "execute": false,
+      "blockers": ["SAUCER_LIQUIDITY_POLICY"]
+    },
+    {
+      "id": "axelar:mainnet:link",
+      "provider": "axelar",
+      "providerLabel": "Axelar / Squid",
+      "symbol": "LINK.axl",
+      "name": "Chainlink (Axelar)",
+      "icon": "https://icons-ckg.pages.dev/lz-scan/tokens/link.svg",
+      "originNetworks": ["1"],
+      "originTokens": [
+        { "chainId": "1", "address": "0x514910771AF9Ca656af840dff83E8264EcF986CA", "decimals": 18, "symbol": "LINK", "name": "Chainlink", "icon": "https://icons-ckg.pages.dev/lz-scan/tokens/link.svg" }
+      ],
+      "destination": { "standard": "HTS", "tokenId": "0.0.10489307", "address": "0x0000000000000000000000000000000000a00ddb", "decimals": 6, "arrival": "activation_required" },
+      "saucer": { "status": "below_liquidity_policy", "route": [{ "toToken": "0x0000000000000000000000000000000000163b5a", "fee": 1500 }] },
+      "x402": { "transferMethod": "permit2", "status": "deployed_verified" },
+      "sponsorship": { "status": "runtime_gated" },
+      "discovery": true,
+      "quote": false,
+      "execute": false,
+      "blockers": ["SAUCER_LIQUIDITY_POLICY"]
+    },
+    {
+      "id": "axelar:mainnet:lcx",
+      "provider": "axelar",
+      "providerLabel": "Axelar / Squid",
+      "symbol": "LCX",
+      "name": "LCX (Axelar)",
+      "icon": "/tokens/lcx.svg",
+      "originNetworks": ["1"],
+      "originTokens": [
+        { "chainId": "1", "address": "0x8cd41041505885ef0ad3858181d66f17be8aae7e", "decimals": 18, "symbol": "LCX", "name": "LCX", "icon": "/tokens/lcx.svg" }
+      ],
+      "destination": { "standard": "HTS", "tokenId": "0.0.10483528", "address": "0x00000000000000000000000000000000009ff748", "decimals": 6, "providerAmountDecimals": 18, "arrival": "activation_required" },
+      "saucer": { "status": "verified", "route": [{ "toToken": "0x0000000000000000000000000000000000163b5a", "fee": 3000, "venue": "v1", "poolId": "2772", "contractId": "0.0.10493784" }], "evidence": "SaucerSwap complete-graph API exposes the LCX.axl/HBAR V1 pool 0.0.10493784; execution requires the venue-aware exact-output V1 router path." },
+      "x402": { "transferMethod": "permit2", "status": "deployed_verified" },
+      "sponsorship": { "status": "runtime_gated" },
+      "discovery": true,
+      "quote": true,
+      "execute": true,
+      "blockers": []
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "schema": "refuel402.refuel-price-protection-config.v1",
+  "baseBufferBps": 800,
+  "volatilityBpsPerMinute": 60,
+  "minBufferBps": 800,
+  "maxBufferBps": 3500,
+  "strictBufferBps": 500,
+  "customWarningBelowBps": 400,
+  "authorizationTtlSeconds": 7200
+}

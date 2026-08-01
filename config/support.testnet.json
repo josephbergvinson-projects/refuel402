@@ -1,0 +1,68 @@
+{
+  "schema": "refuel402.support-catalog.v1",
+  "mode": "testnet",
+  "evidenceAt": "2026-07-22T21:04:09Z",
+  "hedera": {
+    "chainId": 296,
+    "caip2": "eip155:296",
+    "name": "Hedera Testnet",
+    "icon": "https://icons-ckg.pages.dev/lz-scan/networks/hedera-testnet.svg"
+  },
+  "originNetworks": [
+    {
+      "chainId": "11155111",
+      "name": "Ethereum Sepolia",
+      "icon": "https://icons-ckg.pages.dev/lz-scan/networks/ethereum-sepolia.svg",
+      "explorer": "https://sepolia.etherscan.io",
+      "providers": ["axelar"],
+      "discoveryStatus": "provider_quote_required"
+    },
+    {
+      "chainId": "10143",
+      "providerChain": "monad-3",
+      "name": "Monad Testnet",
+      "icon": "https://icons-ckg.pages.dev/lz-scan/networks/monad-testnet.svg",
+      "explorer": "https://testnet.monadexplorer.com",
+      "providers": ["axelar"],
+      "discoveryStatus": "provider_quote_required"
+    }
+  ],
+  "assets": [
+    {
+      "id": "axelar:testnet:axe",
+      "provider": "axelar",
+      "providerLabel": "Axelar",
+      "symbol": "AXE",
+      "name": "AXE (Axelar ITS)",
+      "icon": "https://icons-ckg.pages.dev/lz-scan/tokens/axe.svg",
+      "originNetworks": ["10143"],
+      "destination": {
+        "standard": "HTS",
+        "tokenId": "0.0.9211548",
+        "address": "0x00000000000000000000000000000000008c8e9c",
+        "decimals": 6,
+        "arrival": "activation_required"
+      },
+      "saucer": {
+        "status": "no_route",
+        "route": [],
+        "evidence": "Complete testnet factory proof inspected 581 V1 pairs and 21 V2 pools (602 edges) and found no AXE incident edge."
+      },
+      "x402": {
+        "transferMethod": "permit2",
+        "status": "proxy_deployed_facilitator_disabled"
+      },
+      "sponsorship": {
+        "status": "policy_rpc_not_live_proven"
+      },
+      "discovery": true,
+      "quote": false,
+      "execute": false,
+      "blockers": [
+        "SAUCER_ROUTE_UNAVAILABLE",
+        "X402_FACILITATOR_NOT_READY",
+        "POLICY_RPC_NOT_LIVE_PROVEN"
+      ]
+    }
+  ]
+}

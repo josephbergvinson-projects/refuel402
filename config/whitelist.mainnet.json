@@ -1,0 +1,410 @@
+{
+  "network": "mainnet",
+  "generatedAt": "2026-07-20T13:33:46.299Z",
+  "hbarUsd": 0.06622633,
+  "criteria": {
+    "minTvlUsd": 20000,
+    "minDepthHbar": 20000,
+    "maxImpactBpsAtMaxFuel": 150,
+    "maxFuelHbar": 50,
+    "hardRejects": [
+      "no direct WHBAR V2 pool",
+      "custom transfer fees",
+      "KYC key"
+    ]
+  },
+  "tokens": [
+    {
+      "symbol": "SAUCE",
+      "tokenId": "0.0.731861",
+      "evmAddress": "0x00000000000000000000000000000000000b2ad5",
+      "decimals": 6,
+      "poolFee": 3000,
+      "priceUsd": 0.012879548498192242,
+      "poolTvlUsd": 304539,
+      "whbarDepthHbar": 2601654,
+      "impactBps": 0,
+      "impactSource": "depth-proxy",
+      "maxFuelHbar": 50,
+      "suggestedMaxAmountIn": "257098803",
+      "dueDiligenceComplete": true,
+      "riskFlags": [],
+      "bridge": null
+    },
+    {
+      "symbol": "HBARX",
+      "tokenId": "0.0.834116",
+      "evmAddress": "0x00000000000000000000000000000000000cba44",
+      "decimals": 8,
+      "poolFee": 1500,
+      "priceUsd": 0.0936689231804928,
+      "poolTvlUsd": 2519221,
+      "whbarDepthHbar": 34660248,
+      "impactBps": 0,
+      "impactSource": "depth-proxy",
+      "maxFuelHbar": 50,
+      "suggestedMaxAmountIn": "3535128181",
+      "dueDiligenceComplete": true,
+      "riskFlags": [],
+      "bridge": null
+    },
+    {
+      "symbol": "USDC",
+      "tokenId": "0.0.456858",
+      "evmAddress": "0x000000000000000000000000000000000006f89a",
+      "decimals": 6,
+      "poolFee": 1500,
+      "priceUsd": 0.9835900531534081,
+      "poolTvlUsd": 4645691,
+      "whbarDepthHbar": 59900535,
+      "impactBps": 0,
+      "impactSource": "depth-proxy",
+      "maxFuelHbar": 50,
+      "suggestedMaxAmountIn": "3366562",
+      "dueDiligenceComplete": true,
+      "riskFlags": [
+        "freeze-key"
+      ],
+      "bridge": null
+    },
+    {
+      "symbol": "USDC[hts] (unsupported remnant)",
+      "supported": false,
+      "tokenId": "0.0.1055459",
+      "evmAddress": "0x0000000000000000000000000000000000101ae3",
+      "decimals": 6,
+      "poolFee": 1500,
+      "priceUsd": 0.6638831202557516,
+      "poolTvlUsd": 42359,
+      "whbarDepthHbar": 463294,
+      "impactBps": 1,
+      "impactSource": "depth-proxy",
+      "maxFuelHbar": 50,
+      "suggestedMaxAmountIn": "4987801",
+      "dueDiligenceComplete": true,
+      "riskFlags": [
+        "pause-key"
+      ],
+      "bridge": "hashport"
+    },
+    {
+      "symbol": "USDT[hts] (unsupported remnant)",
+      "supported": false,
+      "tokenId": "0.0.1055472",
+      "evmAddress": "0x0000000000000000000000000000000000101af0",
+      "decimals": 6,
+      "poolFee": 1500,
+      "priceUsd": 0.6944863498332454,
+      "poolTvlUsd": 22000,
+      "whbarDepthHbar": 260835,
+      "impactBps": 2,
+      "impactSource": "depth-proxy",
+      "maxFuelHbar": 50,
+      "suggestedMaxAmountIn": "4768009",
+      "dueDiligenceComplete": true,
+      "riskFlags": [
+        "pause-key"
+      ],
+      "bridge": "hashport"
+    },
+    {
+      "symbol": "XSAUCE",
+      "tokenId": "0.0.1460200",
+      "evmAddress": "0x00000000000000000000000000000000001647e8",
+      "decimals": 6,
+      "poolFee": 3000,
+      "priceUsd": 0.016362683510531165,
+      "poolTvlUsd": 38779,
+      "whbarDepthHbar": 206860,
+      "impactBps": 2,
+      "impactSource": "depth-proxy",
+      "maxFuelHbar": 50,
+      "suggestedMaxAmountIn": "202370015",
+      "dueDiligenceComplete": true,
+      "riskFlags": [],
+      "bridge": null
+    },
+    {
+      "symbol": "GRELF",
+      "tokenId": "0.0.1159074",
+      "evmAddress": "0x000000000000000000000000000000000011afa2",
+      "decimals": 8,
+      "poolFee": 3000,
+      "priceUsd": 0.07330470507900201,
+      "poolTvlUsd": 136683,
+      "whbarDepthHbar": 912775,
+      "impactBps": 1,
+      "impactSource": "depth-proxy",
+      "maxFuelHbar": 50,
+      "suggestedMaxAmountIn": "4517195038",
+      "dueDiligenceComplete": true,
+      "riskFlags": [],
+      "bridge": null
+    },
+    {
+      "symbol": "DOVU",
+      "tokenId": "0.0.3716059",
+      "evmAddress": "0x000000000000000000000000000000000038b3db",
+      "decimals": 8,
+      "poolFee": 10000,
+      "priceUsd": 0.0014145667888078237,
+      "poolTvlUsd": 463913,
+      "whbarDepthHbar": 4822881,
+      "impactBps": 0,
+      "impactSource": "depth-proxy",
+      "maxFuelHbar": 50,
+      "suggestedMaxAmountIn": "234086967558",
+      "dueDiligenceComplete": true,
+      "riskFlags": [],
+      "bridge": null
+    },
+    {
+      "symbol": "KARATE",
+      "tokenId": "0.0.2283230",
+      "evmAddress": "0x000000000000000000000000000000000022d6de",
+      "decimals": 8,
+      "poolFee": 3000,
+      "priceUsd": 0.000016994745355686866,
+      "poolTvlUsd": 144550,
+      "whbarDepthHbar": 1170224,
+      "impactBps": 0,
+      "impactSource": "depth-proxy",
+      "maxFuelHbar": 50,
+      "suggestedMaxAmountIn": "19484354903217",
+      "dueDiligenceComplete": true,
+      "riskFlags": [],
+      "bridge": null
+    },
+    {
+      "symbol": "PACK",
+      "tokenId": "0.0.4794920",
+      "evmAddress": "0x0000000000000000000000000000000000492a28",
+      "decimals": 6,
+      "poolFee": 3000,
+      "priceUsd": 0.004576612415395179,
+      "poolTvlUsd": 209675,
+      "whbarDepthHbar": 1440332,
+      "impactBps": 0,
+      "impactSource": "depth-proxy",
+      "maxFuelHbar": 50,
+      "suggestedMaxAmountIn": "723530027",
+      "dueDiligenceComplete": true,
+      "riskFlags": [],
+      "bridge": null
+    },
+    {
+      "symbol": "BONZO",
+      "tokenId": "0.0.8279134",
+      "evmAddress": "0x00000000000000000000000000000000007e545e",
+      "decimals": 8,
+      "poolFee": 3000,
+      "priceUsd": 0.008804718439976668,
+      "poolTvlUsd": 403959,
+      "whbarDepthHbar": 1129382,
+      "impactBps": 0,
+      "impactSource": "depth-proxy",
+      "maxFuelHbar": 50,
+      "suggestedMaxAmountIn": "37608431463",
+      "dueDiligenceComplete": false,
+      "riskFlags": [],
+      "bridge": null
+    },
+    {
+      "symbol": "gib",
+      "tokenId": "0.0.7893707",
+      "evmAddress": "0x00000000000000000000000000000000007872cb",
+      "decimals": 8,
+      "poolFee": 10000,
+      "priceUsd": 0.002522142272012355,
+      "poolTvlUsd": 193277,
+      "whbarDepthHbar": 1157615,
+      "impactBps": 0,
+      "impactSource": "depth-proxy",
+      "maxFuelHbar": 50,
+      "suggestedMaxAmountIn": "131289837879",
+      "dueDiligenceComplete": false,
+      "riskFlags": [],
+      "bridge": null
+    },
+    {
+      "symbol": "ORBIT",
+      "tokenId": "0.0.10460232",
+      "evmAddress": "0x00000000000000000000000000000000009f9c48",
+      "decimals": 8,
+      "poolFee": 10000,
+      "priceUsd": 0.0005586310168954276,
+      "poolTvlUsd": 49161,
+      "whbarDepthHbar": 285209,
+      "impactBps": 2,
+      "impactSource": "depth-proxy",
+      "maxFuelHbar": 50,
+      "suggestedMaxAmountIn": "592755575658",
+      "dueDiligenceComplete": false,
+      "riskFlags": [],
+      "bridge": null
+    }
+  ],
+  "rejected": [
+    {
+      "symbol": "WBTC[hts]",
+      "tokenId": "0.0.1055483",
+      "reasons": [
+        "fee 1500: TVL $1809 < $20000"
+      ]
+    },
+    {
+      "symbol": "WETH[hts]",
+      "tokenId": "0.0.541564",
+      "reasons": [
+        "fee 1500: TVL $1451 < $20000"
+      ]
+    },
+    {
+      "symbol": "DAI[hts]",
+      "tokenId": "0.0.1055477",
+      "reasons": [
+        "fee 1500: TVL $1189 < $20000"
+      ]
+    },
+    {
+      "symbol": "WAVAX[hts]",
+      "tokenId": "0.0.1157020",
+      "reasons": [
+        "fee 3000: TVL $1161 < $20000"
+      ]
+    },
+    {
+      "symbol": "QNT[hts]",
+      "tokenId": "0.0.1304757",
+      "reasons": [
+        "fee 3000: TVL $7522 < $20000"
+      ]
+    },
+    {
+      "symbol": "HST",
+      "tokenId": "0.0.968069",
+      "reasons": [
+        "fee 3000: TVL $6930 < $20000"
+      ]
+    },
+    {
+      "symbol": "LINK[hts]",
+      "tokenId": "0.0.1055495",
+      "reasons": [
+        "fee 3000: TVL $8223 < $20000"
+      ]
+    },
+    {
+      "symbol": "CLXY",
+      "tokenId": "0.0.859814",
+      "reasons": [
+        "fee 3000: TVL $18186 < $20000"
+      ]
+    },
+    {
+      "symbol": "JAM",
+      "tokenId": "0.0.127877",
+      "reasons": [
+        "fee 10000: TVL $12195 < $20000"
+      ]
+    },
+    {
+      "symbol": "CARAT",
+      "tokenId": "0.0.1958126",
+      "reasons": [
+        "fee 1500: TVL $1 < $20000"
+      ]
+    },
+    {
+      "symbol": "WBNB[hts]",
+      "tokenId": "0.0.1157005",
+      "reasons": [
+        "fee 3000: TVL $4634 < $20000"
+      ]
+    },
+    {
+      "symbol": "HLQT",
+      "tokenId": "0.0.6070128",
+      "reasons": [
+        "fee 3000: TVL $14918 < $20000"
+      ]
+    },
+    {
+      "symbol": "STEAM",
+      "tokenId": "0.0.3210123",
+      "reasons": [
+        "fee 3000: TVL $14 < $20000"
+      ]
+    },
+    {
+      "symbol": "HCHF",
+      "tokenId": "0.0.6070123",
+      "reasons": [
+        "fee 3000: TVL $0 < $20000"
+      ]
+    },
+    {
+      "symbol": "DAVINCI",
+      "tokenId": "0.0.3706639",
+      "reasons": [
+        "fee 3000: TVL $3194 < $20000"
+      ]
+    },
+    {
+      "symbol": "HTS-WETH",
+      "tokenId": "0.0.9770617",
+      "reasons": [
+        "fee 1500: TVL $456 < $20000"
+      ]
+    },
+    {
+      "symbol": "HTS-WBTC",
+      "tokenId": "0.0.10082597",
+      "reasons": [
+        "fee 3000: TVL $3164 < $20000"
+      ]
+    },
+    {
+      "symbol": "USDT0",
+      "tokenId": "0.0.10282787",
+      "reasons": [
+        "fee 1500: TVL $11685 < $20000"
+      ]
+    },
+    {
+      "symbol": "LINK.axl",
+      "tokenId": "0.0.10489307",
+      "reasons": [
+        "fee 1500: TVL $291 < $20000"
+      ]
+    },
+    {
+      "symbol": "QNT.axl",
+      "tokenId": "0.0.10483480",
+      "reasons": [
+        "fee 1500: TVL $13242 < $20000"
+      ]
+    },
+    {
+      "symbol": "WAVAX.axl",
+      "tokenId": "0.0.10485149",
+      "reasons": [
+        "fee 1500: TVL $3895 < $20000"
+      ]
+    },
+    {
+      "symbol": "WBNB.axl",
+      "tokenId": "0.0.10485043",
+      "reasons": [
+        "fee 1500: TVL $2689 < $20000"
+      ]
+    },
+    {
+      "symbol": "PLEX",
+      "tokenId": "0.0.10479419",
+      "reasons": [
+        "fee 10000: TVL $17500 < $20000"
+      ]
+    }
+  ]
+}

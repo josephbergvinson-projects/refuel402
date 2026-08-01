@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" role="img" aria-label="HBAR">
+  <circle cx="20" cy="20" r="20" fill="#000"/>
+  <path
+    fill="#fff"
+    d="M12.4 10h3.1v6.6h9V10h3.1v20h-3.1v-7.1h-9V30h-3.1V10Zm3.1 9.1h9v1.9h-9v-1.9Z"
+  />
+</svg>

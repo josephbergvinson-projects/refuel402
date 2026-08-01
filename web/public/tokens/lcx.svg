@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+  <title>LCX</title>
+  <defs>
+    <linearGradient id="g" x1="8" y1="8" x2="56" y2="56" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#2b66ff"/>
+      <stop offset="1" stop-color="#6f35ff"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="16" fill="#0b1020"/>
+  <path d="M17 15v34h23v-7H25V15h-8Z" fill="url(#g)"/>
+  <path d="m37 22 5.5 8 5.5-8h8l-9.5 13L56 49h-8l-5.5-8-5.5 8h-8l9.5-14L29 22h8Z" fill="#fff"/>
+</svg>

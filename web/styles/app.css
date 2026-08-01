@@ -1,0 +1,206 @@
+/* App shell layout: top bar, the single card stage, footer, activity drawer. */
+
+.top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-5);
+  flex-wrap: wrap;
+  max-width: var(--shell-width);
+  margin: 0 auto;
+  padding: var(--space-8) var(--space-9);
+}
+
+.brand {
+  font-size: var(--text-md);
+  font-weight: 800;
+  letter-spacing: -0.3px;
+  line-height: var(--leading-tight);
+}
+.brand a {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  color: var(--text);
+  text-decoration: none;
+}
+.brand a:hover { text-decoration: none; }
+.brand em { color: var(--mint); font-style: normal; }
+.brand-mark {
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-small);
+  background: var(--gradient-mark);
+  color: var(--text-on-brand);
+  font-size: var(--text-sm);
+  font-weight: 900;
+}
+
+.top-bar__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+.top-bar__destination {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+/* One centred line of text, both connected and not. This button used to hold the
+   address plus the chain name, with `align-items: baseline` — two labels of
+   different sizes sharing a baseline in a 40px control, which read as one run-on
+   string. The chain is on the send box and in the wallet dialog; the button is
+   just the account. */
+.top-bar .top-bar__wallet {
+  justify-content: center;
+  min-width: 132px;
+}
+.top-bar__count {
+  display: inline-grid;
+  place-items: center;
+  min-width: 18px;
+  height: 18px;
+  margin-left: var(--space-2);
+  padding: 0 5px;
+  border-radius: var(--radius-pill);
+  background: var(--mint-dim);
+  color: var(--mint);
+  font-size: var(--text-3xs);
+  font-weight: 800;
+}
+
+.stage {
+  width: 100%;
+  max-width: var(--card-width);
+  margin: var(--space-9) auto var(--space-11);
+  padding: 0 var(--space-7);
+}
+/* The stage takes programmatic focus on a view change; that is an announcement,
+   not a keyboard landing, so it must not paint a ring the user did not ask for. */
+.stage:focus { outline: none; }
+
+.site-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-7);
+  padding: 0 var(--space-7) var(--space-10);
+  color: var(--text-3);
+  font-size: var(--text-2xs);
+}
+.site-footer nav { display: flex; gap: var(--space-6); }
+.site-footer a { color: var(--text-2); }
+
+.activity-summary {
+  color: var(--text-2);
+  font-size: var(--text-xs);
+  margin-bottom: var(--space-6);
+}
+.activity-list { display: grid; gap: var(--space-4); margin-bottom: var(--space-6); }
+.activity-row { display: grid; gap: var(--space-3); padding: var(--space-5) var(--space-6); }
+.activity-row__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+.activity-row__head h3 { font-size: var(--text-sm); font-weight: 700; }
+.activity-row__facts { color: var(--text-2); font-size: var(--text-xs); }
+.activity-row__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+.activity-row .activity-row__abandon { color: var(--text-3); }
+.activity-row .activity-row__abandon:hover:not(:disabled) { color: var(--red); border-color: var(--red-line); }
+
+.activity-drafts { margin-bottom: var(--space-6); }
+.activity-drafts__summary {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-4);
+  width: 100%;
+}
+.activity-drafts__hint { color: var(--text-3); font-size: var(--text-2xs); font-weight: 500; }
+.activity-drafts__note {
+  margin-bottom: var(--space-5);
+  color: var(--text-3);
+  font-size: var(--text-2xs);
+  line-height: var(--leading);
+}
+
+.activity-row__meta {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-4);
+  color: var(--text-3);
+  font-size: var(--text-2xs);
+}
+
+.wallet-dialog__rows { display: grid; gap: var(--space-5); margin-bottom: var(--space-6); }
+.wallet-dialog__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-5);
+  font-size: var(--text-xs);
+}
+.wallet-dialog__row dt { color: var(--text-3); }
+.wallet-dialog__row dd { color: var(--text); font-weight: 650; }
+.wallet-dialog__muted { color: var(--text-3); }
+.wallet-dialog__note {
+  margin: var(--space-4) 0 var(--space-5);
+  color: var(--text-3);
+  font-size: var(--text-2xs);
+  line-height: var(--leading);
+}
+
+/* The unfinished-journey offer. Deliberately quiet: it sits above an untouched
+   compose card rather than replacing it, because a leftover journey is not a
+   reason to take the screen away from the transfer someone came here to make. */
+.resume-offer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-5);
+  padding: var(--space-4) var(--space-5);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-3, 12px);
+  background: var(--surface-2, transparent);
+}
+
+.resume-offer__text {
+  margin: 0;
+  color: var(--text-2);
+  font-size: var(--text-xs);
+  line-height: var(--leading);
+}
+
+.resume-offer__actions { display: flex; gap: var(--space-3); flex: 0 0 auto; }
+
+@media (max-width: 860px) {
+  .top-bar { padding: var(--space-7) var(--space-8); }
+}
+
+@media (max-width: 720px) {
+  .top-bar { padding: var(--space-6) var(--space-7); gap: var(--space-4); }
+  .stage { margin-top: var(--space-7); padding: 0 var(--space-5); }
+}
+
+@media (max-width: 440px) {
+  .top-bar { padding: var(--space-5); }
+  /* Three controls do not fit one 360px row. The destination switch takes its own
+     line so Journeys and the wallet stay side by side instead of laddering. */
+  .top-bar__actions { width: 100%; justify-content: space-between; gap: var(--space-3); }
+  .top-bar__destination { flex: 1 1 100%; justify-content: center; }
+  .top-bar__destination .ui-segmented { flex: 0 1 auto; justify-content: center; }
+  .top-bar .top-bar__wallet { min-width: 0; }
+  .site-footer { flex-direction: column; gap: var(--space-4); }
+}
