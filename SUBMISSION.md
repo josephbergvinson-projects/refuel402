@@ -4,7 +4,7 @@
 
 Refuel402 lets an EVM user bridge an asset to Hedera and arrive with an exact amount of HBAR for gas in one stock-MetaMask flow. The same EVM address is the bridge sender, Hedera destination, payment authorizer, conversion sender, and HBAR recipient.
 
-- Public source: <https://github.com/josephbergvinson/refuel402>
+- Public source: <https://github.com/josephbergvinson-projects/refuel402>
 - Public app: <https://refuel402.pages.dev/>
 - Public demo: <https://drive.google.com/drive/folders/1jitCwXlTOeT_wffuPbCLswKwGLNcjD-2> — anonymously readable 94.628-second `Refuel402 Demo.mp4`
 - License: MIT

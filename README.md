@@ -2,7 +2,7 @@
 
 Refuel402 is a one-wallet bridge and optional-refuel flow for Hedera. A user connects stock MetaMask, bridges an EVM asset to the same address on Hedera, and can arrive with an exact amount of HBAR for gas.
 
-- Source: <https://github.com/josephbergvinson/refuel402>
+- Source: <https://github.com/josephbergvinson-projects/refuel402>
 - App: <https://refuel402.pages.dev/>
 - Demo: <https://drive.google.com/drive/folders/1jitCwXlTOeT_wffuPbCLswKwGLNcjD-2> — public 94.628-second `Refuel402 Demo.mp4`
 - Bounty summary: [`SUBMISSION.md`](SUBMISSION.md)
